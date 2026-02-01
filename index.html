@@ -1,21 +1,56 @@
 <!doctype html>
-<html ng-app="pfmApp">
+<html ng-app="pfmApp" ng-cloak>
 <head>
   <meta charset="utf-8">
   <title>Personal Finance Management - Frontend</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  
+  <!-- Styles -->
   <link rel="stylesheet" href="assets/styles.css">
+  
+  <!-- AngularJS and Dependencies -->
   <script src="node_modules/angular/angular.min.js"></script>
+  <script src="node_modules/@uirouter/angularjs/release/angular-ui-router.min.js"></script>
+  
+  <!-- App Core -->
   <script src="app/app.js"></script>
+  <script src="app/app.config.js"></script>
+  
+  <!-- Services -->
+  <script src="app/services/api.service.js"></script>
+  <script src="app/services/auth.service.js"></script>
+  <script src="app/services/ui.service.js"></script>
+  
+  <!-- Common Components -->
+  <script src="app/components/common/modal.component.js"></script>
+  <script src="app/components/common/loading-spinner.component.js"></script>
+  
+  <!-- Auth Components -->
+  <script src="app/components/auth/login.component.js"></script>
+  <script src="app/components/auth/signup.component.js"></script>
+  
+  <!-- Layout Components -->
+  <script src="app/components/header/header.component.js"></script>
+  <script src="app/components/sidebar/sidebar.component.js"></script>
+  
+  <!-- Dashboard Components -->
+  <script src="app/components/dashboard/dashboard.component.js"></script>
+  <script src="app/components/dashboard/summary-cards.component.js"></script>
+  <script src="app/components/dashboard/recent-transactions.component.js"></script>
+  
+  <!-- Transaction Components -->
+  <script src="app/components/transactions/transactions.component.js"></script>
+  <script src="app/components/transactions/transaction-item.component.js"></script>
+  
+  <!-- Category Components -->
+  <script src="app/components/categories/categories.component.js"></script>
+  <script src="app/components/categories/category-item.component.js"></script>
 </head>
 <body>
-  <header>
-    <h1>Personal Finance Management</h1>
-  </header>
-  <main>
-    <div ng-controller="MainCtrl as main">
-      <p>Welcome to Personal Finance Management frontend.</p>
-    </div>
-  </main>
+  <!-- UI Router View Container -->
+  <div ui-view></div>
+  
+  <!-- Notification Container (Future Enhancement) -->
+  <div id="notification-container" style="position: fixed; top: 1rem; right: 1rem; z-index: 9999;"></div>
 </body>
 </html>

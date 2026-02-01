@@ -1,0 +1,95 @@
+<aside class="pfm-sidebar">
+  <div class="pfm-flex pfm-flex-col" style="gap: 2rem; height: 100%;">
+    <!-- Logo Section -->
+    <div class="pfm-flex" style="align-items: center; gap: 0.75rem; padding: 0.5rem;">
+      <div class="pfm-logo-icon" style="font-size: 1.5rem;">💰</div>
+      <div class="pfm-flex-col">
+        <h1 style="font-size: 1rem; font-weight: 700; line-height: 1;">FinanceApp</h1>
+        <p class="pfm-text-muted" style="font-size: 0.75rem; line-height: 1;">Personal Manager</p>
+      </div>
+    </div>
+    
+    <!-- Navigation Links -->
+    <nav class="pfm-sidebar-nav">
+      <a 
+        href="#!/dashboard" 
+        class="pfm-sidebar-link"
+        ng-class="{active: $ctrl.isActive('app.dashboard')}">
+        <span style="font-size: 1.25rem;">📊</span>
+        <span>Dashboard</span>
+      </a>
+      
+      <a 
+        href="#!/transactions" 
+        class="pfm-sidebar-link"
+        ng-class="{active: $ctrl.isActive('app.transactions')}">
+        <span style="font-size: 1.25rem;">📝</span>
+        <span>Transactions</span>
+      </a>
+      
+      <a 
+        href="#!/categories" 
+        class="pfm-sidebar-link"
+        ng-class="{active: $ctrl.isActive('app.categories')}">
+        <span style="font-size: 1.25rem;">🏷️</span>
+        <span>Categories</span>
+      </a>
+      
+      <a 
+        href="#" 
+        class="pfm-sidebar-link"
+        ng-click="$ctrl.comingSoon('Budgets')">
+        <span style="font-size: 1.25rem;">🎯</span>
+        <span>Budgets</span>
+      </a>
+      
+      <a 
+        href="#" 
+        class="pfm-sidebar-link"
+        ng-click="$ctrl.comingSoon('Savings')">
+        <span style="font-size: 1.25rem;">💎</span>
+        <span>Savings</span>
+      </a>
+      
+      <a 
+        href="#" 
+        class="pfm-sidebar-link"
+        ng-click="$ctrl.comingSoon('Reports')">
+        <span style="font-size: 1.25rem;">📈</span>
+        <span>Reports</span>
+      </a>
+      
+      <a 
+        href="#" 
+        class="pfm-sidebar-link"
+        ng-click="$ctrl.comingSoon('Settings')">
+        <span style="font-size: 1.25rem;">⚙️</span>
+        <span>Settings</span>
+      </a>
+    </nav>
+    
+    <!-- Upgrade Card (Bottom) -->
+    <div style="margin-top: auto;">
+      <div style="background: rgba(19, 236, 109, 0.1); border-radius: 0.75rem; padding: 1rem; margin-bottom: 1rem; border: 1px solid rgba(19, 236, 109, 0.2);">
+        <p style="font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Upgrade to Pro</p>
+        <p class="pfm-text-muted" style="font-size: 0.625rem; margin-bottom: 0.75rem;">Get advanced analytics and insights.</p>
+        <button class="pfm-btn pfm-btn-primary pfm-btn-sm" style="width: 100%; font-size: 0.75rem;" ng-click="$ctrl.upgradeToPro()">
+          Unlock All Features
+        </button>
+      </div>
+      
+      <!-- User Profile Footer -->
+      <div class="pfm-flex" style="align-items: center; gap: 0.75rem; padding: 1rem 0.5rem; border-top: 1px solid var(--pfm-border-light);">
+        <div style="width: 2rem; height: 2rem; border-radius: 50%; background: var(--pfm-primary); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.875rem; color: var(--pfm-text-dark);">
+          {{ $ctrl.getUserInitials() }}
+        </div>
+        <div class="pfm-flex-col" style="overflow: hidden;">
+          <p style="font-size: 0.75rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            {{ $ctrl.currentUser?.name || 'User' }}
+          </p>
+          <p class="pfm-text-muted" style="font-size: 0.625rem;">Standard Plan</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>

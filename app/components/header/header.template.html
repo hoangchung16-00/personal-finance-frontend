@@ -1,0 +1,49 @@
+<div class="pfm-header">
+  <div class="pfm-header-content">
+    <div class="pfm-flex" style="align-items: center; gap: 2rem;">
+      <a href="#!/dashboard" class="pfm-logo">
+        <div class="pfm-logo-icon">💰</div>
+        <span>FinanceApp</span>
+      </a>
+      
+      <div class="pfm-flex" style="align-items: center; gap: 0.5rem; display: none;" ng-class="{'pfm-flex': $ctrl.showSearch}" ng-if="$ctrl.currentState !== 'login' && $ctrl.currentState !== 'signup'">
+        <input 
+          type="text" 
+          class="pfm-form-control" 
+          ng-model="$ctrl.searchQuery" 
+          placeholder="Search transactions..." 
+          style="min-width: 16rem; display: none;" 
+          ng-class="{'pfm-flex': $ctrl.showSearch}">
+      </div>
+    </div>
+    
+    <div class="pfm-flex" style="align-items: center; gap: 1rem;" ng-if="$ctrl.currentUser">
+      <button 
+        class="pfm-btn pfm-btn-primary pfm-btn-sm"
+        ng-click="$ctrl.addTransaction()">
+        + Add Transaction
+      </button>
+      
+      <div class="pfm-flex" style="align-items: center; gap: 0.75rem; cursor: pointer;" ng-click="$ctrl.toggleUserMenu()">
+        <div 
+          style="width: 2.5rem; height: 2.5rem; border-radius: 50%; background: var(--pfm-primary); display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--pfm-text-dark);">
+          {{ $ctrl.getUserInitials() }}
+        </div>
+        <div style="display: none;" ng-class="{'pfm-flex': $ctrl.showUserName}" class="pfm-flex-col">
+          <span style="font-size: 0.875rem; font-weight: 600;">{{ $ctrl.currentUser.name }}</span>
+          <span class="pfm-text-muted" style="font-size: 0.75rem;">{{ $ctrl.currentUser.email }}</span>
+        </div>
+      </div>
+      
+      <!-- User Menu Dropdown (Simple version) -->
+      <div ng-if="$ctrl.showUserMenu" style="position: fixed; top: 4rem; right: 1rem; background: var(--pfm-bg-card); border: 1px solid var(--pfm-border-light); border-radius: 0.5rem; padding: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 1000;">
+        <button class="pfm-btn pfm-btn-secondary" style="width: 100%; text-align: left; margin-bottom: 0.25rem;" ng-click="$ctrl.goToSettings()">
+          ⚙️ Settings
+        </button>
+        <button class="pfm-btn pfm-btn-secondary" style="width: 100%; text-align: left;" ng-click="$ctrl.logout()">
+          🚪 Logout
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

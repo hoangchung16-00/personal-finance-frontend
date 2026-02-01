@@ -1,0 +1,95 @@
+<div class="pfm-container" style="padding: 2rem 0;">
+  <!-- Page Heading -->
+  <div class="pfm-flex" style="justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+    <div>
+      <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Dashboard Overview</h2>
+      <p class="pfm-text-muted">Welcome back, here's your financial summary for <strong>May 2024</strong></p>
+    </div>
+    <button class="pfm-btn pfm-btn-primary" ng-click="$ctrl.addTransaction()">
+      <span style="font-size: 1.25rem; margin-right: 0.5rem;">+</span>
+      Add Transaction
+    </button>
+  </div>
+  
+  <!-- Loading State -->
+  <pfm-loading-spinner ng-if="$ctrl.loading" message="Loading dashboard..."></pfm-loading-spinner>
+  
+  <!-- Dashboard Content -->
+  <div ng-if="!$ctrl.loading">
+    <!-- Summary Cards Component -->
+    <pfm-summary-cards stats="$ctrl.stats"></pfm-summary-cards>
+    
+    <!-- Charts and Budget Section -->
+    <div class="pfm-grid pfm-grid-cols-3 pfm-mb-4" style="margin-top: 2rem;">
+      <!-- Net Cash Flow Chart -->
+      <div class="pfm-card" style="grid-column: span 2;">
+        <div class="pfm-flex" style="justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <div>
+            <h3 class="pfm-card-header" style="margin-bottom: 0.25rem;">Net Cash Flow</h3>
+            <p class="pfm-text-muted" style="font-size: 0.75rem;">Income vs. Expenses Trends</p>
+          </div>
+          <div class="pfm-flex" style="gap: 1rem; font-size: 0.625rem; font-weight: 700;">
+            <span class="pfm-flex" style="align-items: center; gap: 0.25rem;">
+              <span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--pfm-primary);"></span>
+              Income
+            </span>
+            <span class="pfm-flex" style="align-items: center; gap: 0.25rem;">
+              <span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--pfm-border-light);"></span>
+              Expenses
+            </span>
+          </div>
+        </div>
+        <div>
+          <div class="pfm-flex" style="align-items: baseline; gap: 0.5rem; margin-bottom: 1rem;">
+            <p style="font-size: 2rem; font-weight: 700;">$2,080.00</p>
+            <p class="pfm-text-success" style="font-size: 0.875rem; font-weight: 700;">+12% vs last month</p>
+          </div>
+          <!-- Simplified chart placeholder -->
+          <div style="height: 220px; background: linear-gradient(to top, rgba(19, 236, 109, 0.1), transparent); border-radius: 0.5rem; display: flex; align-items: flex-end; padding: 1rem; gap: 0.5rem;">
+            <div ng-repeat="bar in [70, 50, 80, 60, 90, 40, 85]" 
+                 style="flex: 1; background: var(--pfm-primary); border-radius: 0.25rem;" 
+                 ng-style="{height: bar + '%', opacity: 0.7}">
+            </div>
+          </div>
+          <div class="pfm-flex" style="justify-content: space-between; padding: 0 1rem; margin-top: 0.5rem;">
+            <p class="pfm-text-muted" style="font-size: 0.6875rem; font-weight: 700;">Jan</p>
+            <p class="pfm-text-muted" style="font-size: 0.6875rem; font-weight: 700;">Feb</p>
+            <p class="pfm-text-muted" style="font-size: 0.6875rem; font-weight: 700;">Mar</p>
+            <p class="pfm-text-muted" style="font-size: 0.6875rem; font-weight: 700;">Apr</p>
+            <p class="pfm-text-muted" style="font-size: 0.6875rem; font-weight: 700;">May</p>
+            <p class="pfm-text-muted" style="font-size: 0.6875rem; font-weight: 700;">Jun</p>
+            <p class="pfm-text-muted" style="font-size: 0.6875rem; font-weight: 700;">Jul</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Budget Status -->
+      <div class="pfm-card">
+        <div class="pfm-flex" style="justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h3 class="pfm-card-header" style="margin-bottom: 0;">Budget Status</h3>
+          <a href="#" class="pfm-text-muted" style="font-size: 0.75rem; font-weight: 700; text-decoration: none;" ng-click="$ctrl.viewAllBudgets()">View All</a>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <!-- Budget Item -->
+          <div ng-repeat="budget in $ctrl.budgets">
+            <div class="pfm-flex" style="justify-content: space-between; margin-bottom: 0.5rem;">
+              <span style="font-size: 0.875rem; font-weight: 600;">{{ budget.name }}</span>
+              <span class="pfm-text-muted" style="font-size: 0.875rem;">${{ budget.spent }} / ${{ budget.limit }}</span>
+            </div>
+            <div style="width: 100%; background: rgba(19, 236, 109, 0.1); height: 0.5rem; border-radius: 9999px; overflow: hidden;">
+              <div ng-style="{width: budget.percentage + '%', background: budget.percentage > 100 ? 'var(--pfm-error)' : 'var(--pfm-primary)'}" 
+                   style="height: 100%; border-radius: 9999px; transition: width 0.3s ease;">
+              </div>
+            </div>
+            <p ng-if="budget.percentage > 100" class="pfm-text-error" style="font-size: 0.625rem; font-weight: 700; margin-top: 0.25rem;">
+              You exceeded this budget by ${{ budget.spent - budget.limit }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Recent Transactions Component -->
+    <pfm-recent-transactions transactions="$ctrl.recentTransactions"></pfm-recent-transactions>
+  </div>
+</div>
