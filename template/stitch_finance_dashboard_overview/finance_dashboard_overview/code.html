@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Finance Dashboard Overview</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec6d",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#102218",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#0d1b13] dark:text-white antialiased">
+<div class="flex min-h-screen">
+<!-- Sidebar Navigation -->
+<aside class="w-64 border-r border-[#cfe7d9] dark:border-white/10 bg-white dark:bg-background-dark flex flex-col justify-between p-4 sticky top-0 h-screen">
+<div class="flex flex-col gap-8">
+<div class="flex items-center gap-3 px-2">
+<div class="bg-primary rounded-full size-10 flex items-center justify-center">
+<span class="material-symbols-outlined text-background-dark font-bold">account_balance_wallet</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-[#0d1b13] dark:text-white text-base font-bold leading-none">FinanceApp</h1>
+<p class="text-[#4c9a6c] text-xs font-normal">Personal Manager</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/20 text-[#0d1b13] dark:text-primary font-medium" href="#">
+<span class="material-symbols-outlined fill-icon">dashboard</span>
+<span class="text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#e7f3ec] dark:hover:bg-white/5 transition-colors text-[#4c9a6c] dark:text-white/70" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="text-sm">Transactions</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#e7f3ec] dark:hover:bg-white/5 transition-colors text-[#4c9a6c] dark:text-white/70" href="#">
+<span class="material-symbols-outlined">pie_chart</span>
+<span class="text-sm">Budgets</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#e7f3ec] dark:hover:bg-white/5 transition-colors text-[#4c9a6c] dark:text-white/70" href="#">
+<span class="material-symbols-outlined">savings</span>
+<span class="text-sm">Savings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#e7f3ec] dark:hover:bg-white/5 transition-colors text-[#4c9a6c] dark:text-white/70" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm">Settings</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto">
+<div class="bg-primary/10 rounded-xl p-4 mb-4 border border-primary/20">
+<p class="text-[#0d1b13] dark:text-white text-xs font-bold mb-1">Upgrade to Pro</p>
+<p class="text-[#4c9a6c] text-[10px] mb-3">Get advanced analytics and insights.</p>
+<button class="w-full bg-primary text-[#0d1b13] text-xs font-bold py-2 rounded-lg hover:opacity-90 transition-opacity">
+                        Unlock All Features
+                    </button>
+</div>
+<div class="flex items-center gap-3 px-2 pt-4 border-t border-[#cfe7d9] dark:border-white/10">
+<div class="size-8 rounded-full bg-cover" data-alt="User profile avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDO6qzHSkyUZaxZ4fxYN9kvaw5L482ypvvAuAvZHRtXdyF1YKxmTAkGsMvdde6wwHIZ9GQMzcURwwDe98EJuZbdcSDU4rbPiPGLJTuYbUE1AY-kl4N3Sl8d0FsCM-L0SPNq7byIGC72zlKiEZDBFw_WjplqMHmy2vNl4e8PDyAdTuAypw_CcV7t5A_agkNWN2JTGGH0WFgx0U9Sbrx37wHByDSerVwPAUwLJo602nJ938j4pJ0F53zDOBJdfszeq2BItKzSTy12sfs')"></div>
+<div class="flex flex-col">
+<p class="text-xs font-bold dark:text-white">Alex Johnson</p>
+<p class="text-[10px] text-[#4c9a6c]">Standard Plan</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-8 overflow-y-auto">
+<!-- Page Heading -->
+<header class="flex flex-wrap justify-between items-end gap-4 mb-8">
+<div class="flex flex-col gap-1">
+<h2 class="text-[#0d1b13] dark:text-white text-3xl font-black tracking-tight">Dashboard Overview</h2>
+<p class="text-[#4c9a6c] text-sm">Welcome back, here's your financial summary for <span class="font-bold">May 2024</span></p>
+</div>
+<button class="flex items-center gap-2 bg-primary text-[#0d1b13] px-5 py-2.5 rounded-lg font-bold text-sm shadow-sm hover:shadow-md transition-shadow">
+<span class="material-symbols-outlined text-lg">add</span>
+                    Add Transaction
+                </button>
+</header>
+<!-- Stats Summary Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="bg-white dark:bg-background-dark flex flex-col gap-2 rounded-xl p-6 border border-[#cfe7d9] dark:border-white/10 shadow-sm">
+<div class="flex justify-between items-start">
+<p class="text-[#4c9a6c] dark:text-white/60 text-sm font-medium">Total Balance</p>
+<span class="material-symbols-outlined text-primary">account_balance</span>
+</div>
+<p class="text-[#0d1b13] dark:text-white text-3xl font-bold leading-tight">$24,560.00</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[#078829] text-sm">trending_up</span>
+<p class="text-[#078829] text-xs font-bold">+2.5% from last month</p>
+</div>
+</div>
+<div class="bg-white dark:bg-background-dark flex flex-col gap-2 rounded-xl p-6 border border-[#cfe7d9] dark:border-white/10 shadow-sm">
+<div class="flex justify-between items-start">
+<p class="text-[#4c9a6c] dark:text-white/60 text-sm font-medium">Monthly Income</p>
+<span class="material-symbols-outlined text-primary">payments</span>
+</div>
+<p class="text-[#0d1b13] dark:text-white text-3xl font-bold leading-tight">$5,200.00</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[#e72a08] text-sm">trending_down</span>
+<p class="text-[#e72a08] text-xs font-bold">-1.2% from last month</p>
+</div>
+</div>
+<div class="bg-white dark:bg-background-dark flex flex-col gap-2 rounded-xl p-6 border border-[#cfe7d9] dark:border-white/10 shadow-sm">
+<div class="flex justify-between items-start">
+<p class="text-[#4c9a6c] dark:text-white/60 text-sm font-medium">Monthly Expenses</p>
+<span class="material-symbols-outlined text-primary">shopping_cart</span>
+</div>
+<p class="text-[#0d1b13] dark:text-white text-3xl font-bold leading-tight">$3,120.00</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[#078829] text-sm">trending_up</span>
+<p class="text-[#078829] text-xs font-bold">+0.8% efficiency</p>
+</div>
+</div>
+</div>
+<!-- Middle Section: Chart & Budgets -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+<!-- Net Cash Flow Chart -->
+<div class="lg:col-span-2 bg-white dark:bg-background-dark rounded-xl p-6 border border-[#cfe7d9] dark:border-white/10 shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="text-[#0d1b13] dark:text-white text-lg font-bold">Net Cash Flow</h3>
+<p class="text-[#4c9a6c] text-xs">Income vs. Expenses Trends</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="flex items-center gap-1 text-[10px] font-bold text-[#4c9a6c]">
+<span class="size-2 rounded-full bg-primary"></span> Income
+                            </span>
+<span class="flex items-center gap-1 text-[10px] font-bold text-[#4c9a6c]">
+<span class="size-2 rounded-full bg-[#cfe7d9]"></span> Expenses
+                            </span>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex items-baseline gap-2">
+<p class="text-[#0d1b13] dark:text-white tracking-light text-3xl font-bold">$2,080.00</p>
+<p class="text-[#078829] text-sm font-bold">+12% vs last month</p>
+</div>
+<div class="w-full h-[220px]">
+<svg fill="none" height="100%" preserveaspectratio="none" viewbox="0 0 478 150" width="100%" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 109C18 109 18 21 36 21C54 21 54 41 72 41C90 41 90 93 108 93C127 93 127 33 145 33C163 33 163 101 181 101C199 101 199 61 217 61C236 61 236 45 254 45C272 45 272 121 290 121C308 121 308 149 326 149C344 149 344 1 363 1C381 1 381 81 399 81C417 81 417 129 435 129C453 129 453 25 472 25V149H0V109Z" fill="url(#paint0_linear)"></path>
+<path d="M0 109C18 109 18 21 36 21C54 21 54 41 72 41C90 41 90 93 108 93C127 93 127 33 145 33C163 33 163 101 181 101C199 101 199 61 217 61C236 61 236 45 254 45C272 45 272 121 290 121C308 121 308 149 326 149C344 149 344 1 363 1C381 1 381 81 399 81C417 81 417 129 435 129C453 129 453 25 472 25" stroke="#13ec6d" stroke-linecap="round" stroke-width="3"></path>
+<defs>
+<lineargradient gradientunits="userSpaceOnUse" id="paint0_linear" x1="236" x2="236" y1="1" y2="149">
+<stop stop-color="#13ec6d" stop-opacity="0.2"></stop>
+<stop offset="1" stop-color="#13ec6d" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+<div class="flex justify-between px-2">
+<p class="text-[#4c9a6c] text-[11px] font-bold">Jan</p>
+<p class="text-[#4c9a6c] text-[11px] font-bold">Feb</p>
+<p class="text-[#4c9a6c] text-[11px] font-bold">Mar</p>
+<p class="text-[#4c9a6c] text-[11px] font-bold">Apr</p>
+<p class="text-[#4c9a6c] text-[11px] font-bold">May</p>
+<p class="text-[#4c9a6c] text-[11px] font-bold">Jun</p>
+<p class="text-[#4c9a6c] text-[11px] font-bold">Jul</p>
+</div>
+</div>
+</div>
+<!-- Budget Status -->
+<div class="bg-white dark:bg-background-dark rounded-xl p-6 border border-[#cfe7d9] dark:border-white/10 shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-[#0d1b13] dark:text-white text-lg font-bold">Budget Status</h3>
+<a class="text-primary text-xs font-bold hover:underline" href="#">View All</a>
+</div>
+<div class="flex flex-col gap-6">
+<!-- Budget Category -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-sm font-medium">
+<span class="dark:text-white">Housing</span>
+<span class="text-[#4c9a6c]">$1,200 / $1,500</span>
+</div>
+<div class="w-full bg-[#e7f3ec] dark:bg-white/10 h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 80%"></div>
+</div>
+</div>
+<!-- Budget Category -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-sm font-medium">
+<span class="dark:text-white">Food &amp; Dining</span>
+<span class="text-[#4c9a6c]">$450 / $600</span>
+</div>
+<div class="w-full bg-[#e7f3ec] dark:bg-white/10 h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 75%"></div>
+</div>
+</div>
+<!-- Budget Category -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-sm font-medium">
+<span class="dark:text-white">Entertainment</span>
+<span class="text-[#4c9a6c]">$280 / $200</span>
+</div>
+<div class="w-full bg-[#e7f3ec] dark:bg-white/10 h-2 rounded-full overflow-hidden">
+<div class="bg-[#e72a08] h-full rounded-full" style="width: 100%"></div>
+</div>
+<p class="text-[10px] text-[#e72a08] font-bold">You exceeded this budget by $80</p>
+</div>
+<!-- Budget Category -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-sm font-medium">
+<span class="dark:text-white">Transportation</span>
+<span class="text-[#4c9a6c]">$150 / $300</span>
+</div>
+<div class="w-full bg-[#e7f3ec] dark:bg-white/10 h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 50%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Row: Transactions & Savings -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Recent Transactions Table -->
+<div class="lg:col-span-2 bg-white dark:bg-background-dark rounded-xl border border-[#cfe7d9] dark:border-white/10 shadow-sm overflow-hidden">
+<div class="p-6 border-b border-[#cfe7d9] dark:border-white/10 flex justify-between items-center">
+<h3 class="text-[#0d1b13] dark:text-white text-lg font-bold">Recent Transactions</h3>
+<button class="text-xs font-bold text-[#4c9a6c] border border-[#cfe7d9] px-3 py-1 rounded-lg hover:bg-[#e7f3ec] transition-colors">See Statements</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-background-light dark:bg-white/5">
+<tr class="text-[#4c9a6c] text-[11px] uppercase tracking-wider font-bold">
+<th class="px-6 py-3">Transaction</th>
+<th class="px-6 py-3">Category</th>
+<th class="px-6 py-3 text-right">Amount</th>
+<th class="px-6 py-3 text-center">Date</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#cfe7d9] dark:divide-white/10">
+<tr class="hover:bg-background-light dark:hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-[#e7f3ec] flex items-center justify-center text-[#0d1b13]">
+<span class="material-symbols-outlined text-sm">shopping_bag</span>
+</div>
+<div>
+<p class="text-sm font-bold dark:text-white">Apple Store</p>
+<p class="text-[10px] text-[#4c9a6c]">Electronic purchase</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-[#e7f3ec] text-[#0d1b13] text-[10px] font-bold rounded">Electronics</span>
+</td>
+<td class="px-6 py-4 text-right text-sm font-bold text-[#e72a08]">-$1,299.00</td>
+<td class="px-6 py-4 text-center text-[10px] text-[#4c9a6c]">May 24, 2024</td>
+</tr>
+<tr class="hover:bg-background-light dark:hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-primary/20 flex items-center justify-center text-[#0d1b13]">
+<span class="material-symbols-outlined text-sm">work</span>
+</div>
+<div>
+<p class="text-sm font-bold dark:text-white">Tech Corp Salary</p>
+<p class="text-[10px] text-[#4c9a6c]">Monthly paycheck</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-primary/20 text-[#0d1b13] text-[10px] font-bold rounded">Income</span>
+</td>
+<td class="px-6 py-4 text-right text-sm font-bold text-[#078829]">+$5,200.00</td>
+<td class="px-6 py-4 text-center text-[10px] text-[#4c9a6c]">May 20, 2024</td>
+</tr>
+<tr class="hover:bg-background-light dark:hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-[#e7f3ec] flex items-center justify-center text-[#0d1b13]">
+<span class="material-symbols-outlined text-sm">restaurant</span>
+</div>
+<div>
+<p class="text-sm font-bold dark:text-white">The Green Cafe</p>
+<p class="text-[10px] text-[#4c9a6c]">Lunch with client</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-[#e7f3ec] text-[#0d1b13] text-[10px] font-bold rounded">Food</span>
+</td>
+<td class="px-6 py-4 text-right text-sm font-bold text-[#e72a08]">-$42.50</td>
+<td class="px-6 py-4 text-center text-[10px] text-[#4c9a6c]">May 18, 2024</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Savings Goals Cards -->
+<div class="flex flex-col gap-6">
+<div class="bg-white dark:bg-background-dark rounded-xl p-6 border border-[#cfe7d9] dark:border-white/10 shadow-sm flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<h3 class="text-[#0d1b13] dark:text-white text-lg font-bold">Savings Goals</h3>
+<button class="size-8 flex items-center justify-center border border-[#cfe7d9] rounded-full text-[#4c9a6c] hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<!-- Savings Item -->
+<div class="flex items-center gap-4 bg-background-light dark:bg-white/5 p-4 rounded-xl border border-[#cfe7d9] dark:border-white/10">
+<div class="relative size-14 shrink-0">
+<svg class="size-full" viewbox="0 0 36 36">
+<circle class="stroke-[#e7f3ec] dark:stroke-white/10" cx="18" cy="18" fill="none" r="16" stroke-width="3"></circle>
+<circle class="stroke-primary" cx="18" cy="18" fill="none" r="16" stroke-dasharray="100" stroke-dashoffset="35" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="text-[10px] font-bold dark:text-white">65%</span>
+</div>
+</div>
+<div class="flex flex-col overflow-hidden">
+<p class="text-sm font-bold dark:text-white truncate">New Electric Car</p>
+<p class="text-xs text-[#4c9a6c]">$32,500 / $50,000</p>
+<p class="text-[9px] font-bold text-primary mt-1">On Track</p>
+</div>
+</div>
+<!-- Savings Item -->
+<div class="flex items-center gap-4 bg-background-light dark:bg-white/5 p-4 rounded-xl border border-[#cfe7d9] dark:border-white/10">
+<div class="relative size-14 shrink-0">
+<svg class="size-full" viewbox="0 0 36 36">
+<circle class="stroke-[#e7f3ec] dark:stroke-white/10" cx="18" cy="18" fill="none" r="16" stroke-width="3"></circle>
+<circle class="stroke-primary" cx="18" cy="18" fill="none" r="16" stroke-dasharray="100" stroke-dashoffset="10" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="text-[10px] font-bold dark:text-white">90%</span>
+</div>
+</div>
+<div class="flex flex-col overflow-hidden">
+<p class="text-sm font-bold dark:text-white truncate">Emergency Fund</p>
+<p class="text-xs text-[#4c9a6c]">$18,000 / $20,000</p>
+<p class="text-[9px] font-bold text-primary mt-1">Almost There!</p>
+</div>
+</div>
+<!-- Savings Item -->
+<div class="flex items-center gap-4 bg-background-light dark:bg-white/5 p-4 rounded-xl border border-[#cfe7d9] dark:border-white/10">
+<div class="relative size-14 shrink-0">
+<svg class="size-full" viewbox="0 0 36 36">
+<circle class="stroke-[#e7f3ec] dark:stroke-white/10" cx="18" cy="18" fill="none" r="16" stroke-width="3"></circle>
+<circle class="stroke-[#4c9a6c]" cx="18" cy="18" fill="none" r="16" stroke-dasharray="100" stroke-dashoffset="85" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="text-[10px] font-bold dark:text-white">15%</span>
+</div>
+</div>
+<div class="flex flex-col overflow-hidden">
+<p class="text-sm font-bold dark:text-white truncate">Japan Vacation</p>
+<p class="text-xs text-[#4c9a6c]">$1,200 / $8,000</p>
+<p class="text-[9px] font-bold text-[#4c9a6c] mt-1">Starting Phase</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

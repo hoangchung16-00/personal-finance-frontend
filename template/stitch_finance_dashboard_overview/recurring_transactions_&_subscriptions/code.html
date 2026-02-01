@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Recurring Transactions &amp; Subscriptions</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec6d",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#102218",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom Checkbox as a Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #cbd5e1;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #13ec6d;
+        }
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#0d1b13] dark:text-white font-display">
+<!-- Main Container -->
+<div class="relative flex min-h-screen w-full flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#cfe7d9] dark:border-[#2a3e33] bg-background-light dark:bg-background-dark px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4">
+<div class="text-primary size-6 flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">account_balance_wallet</span>
+</div>
+<h2 class="text-[#0d1b13] dark:text-white text-lg font-bold leading-tight tracking-tight">FinanceTracker</h2>
+</div>
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-[#4c9a6c] dark:text-gray-400 text-sm font-medium hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-[#4c9a6c] dark:text-gray-400 text-sm font-medium hover:text-primary transition-colors" href="#">Transactions</a>
+<a class="text-[#4c9a6c] dark:text-gray-400 text-sm font-medium hover:text-primary transition-colors" href="#">Budgets</a>
+<a class="text-primary text-sm font-bold border-b-2 border-primary pb-1" href="#">Recurring</a>
+<a class="text-[#4c9a6c] dark:text-gray-400 text-sm font-medium hover:text-primary transition-colors" href="#">Savings</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<label class="flex flex-col min-w-40 h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full overflow-hidden">
+<div class="text-[#4c9a6c] flex items-center justify-center pl-4 bg-[#e7f3ec] dark:bg-[#1a2f24]">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-[#e7f3ec] dark:bg-[#1a2f24] text-[#0d1b13] dark:text-white focus:ring-0 placeholder:text-[#4c9a6c] pl-2 text-sm font-normal" placeholder="Search subscriptions..."/>
+</div>
+</label>
+<div class="flex items-center gap-3">
+<button class="text-[#4c9a6c] dark:text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border-2 border-primary" data-alt="User profile picture placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAljwnUMi9ztGiT2vMW8SuX_LqJo8BRWuqsQMjlwfxi3YkI1XPPycwTzzABbsJ74UJR1EiqFbT0bs5zY2r0xXd4C6XIz1VaNtlICuyyYnr8UtVLpFwaxuBfcV9dHLkasG3ZkMLjpdh3PZGE6e7pptUw4M8oPwhyR96gkP4A9Verp0xRTXL-SYoQMNM6uPvq7KByxeyAYwhS9sAwdFT3VXjhQahXpOwMCXVMQQRtRrmUPWgo4lGCAaDvhDhL-lJVC3V0cBqEZ5I0h70");'></div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex flex-col flex-1 max-w-7xl mx-auto w-full p-6 lg:px-10 gap-8">
+<!-- Page Heading -->
+<div class="flex flex-wrap justify-between items-end gap-6">
+<div class="flex flex-col gap-2">
+<h1 class="text-[#0d1b13] dark:text-white text-4xl font-black leading-tight tracking-tight">Recurring Transactions</h1>
+<p class="text-[#4c9a6c] dark:text-gray-400 text-lg font-normal">Track your automated income and recurring subscriptions.</p>
+</div>
+<button class="flex items-center justify-center gap-2 rounded-lg h-12 px-6 bg-primary text-background-dark text-base font-bold transition-transform hover:scale-[1.02] active:scale-[0.98]">
+<span class="material-symbols-outlined">add_circle</span>
+<span>Add New Recurring</span>
+</button>
+</div>
+<!-- Stats Section -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-[#cfe7d9] dark:border-[#2a3e33] bg-white dark:bg-[#162a1f] shadow-sm">
+<div class="flex items-center gap-2 text-[#4c9a6c] mb-1">
+<span class="material-symbols-outlined text-sm">payments</span>
+<p class="text-sm font-medium">Total Monthly Subs</p>
+</div>
+<p class="text-[#0d1b13] dark:text-white text-3xl font-black">$2,480.00</p>
+<div class="flex items-center gap-1 text-primary text-sm font-semibold">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span>+2.4% from last month</span>
+</div>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-[#cfe7d9] dark:border-[#2a3e33] bg-white dark:bg-[#162a1f] shadow-sm">
+<div class="flex items-center gap-2 text-[#4c9a6c] mb-1">
+<span class="material-symbols-outlined text-sm">event</span>
+<p class="text-sm font-medium">Upcoming (7 Days)</p>
+</div>
+<p class="text-[#0d1b13] dark:text-white text-3xl font-black">$850.20</p>
+<div class="flex items-center gap-1 text-gray-500 text-sm font-semibold">
+<span class="material-symbols-outlined text-sm">horizontal_rule</span>
+<span>Stable</span>
+</div>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-primary/30 bg-primary/5 dark:bg-primary/10 shadow-sm">
+<div class="flex items-center gap-2 text-[#4c9a6c] mb-1">
+<span class="material-symbols-outlined text-sm">savings</span>
+<p class="text-sm font-medium">Auto-Savings Growth</p>
+</div>
+<p class="text-primary text-3xl font-black">$450.00</p>
+<div class="flex items-center gap-1 text-primary text-sm font-semibold">
+<span class="material-symbols-outlined text-sm">arrow_upward</span>
+<span>12.5% increase</span>
+</div>
+</div>
+</div>
+<!-- Tabs & Filters -->
+<div class="flex flex-col gap-4">
+<div class="flex border-b border-[#cfe7d9] dark:border-[#2a3e33] gap-8">
+<a class="flex flex-col items-center justify-center border-b-[3px] border-primary text-[#0d1b13] dark:text-white pb-3 pt-4 px-2" href="#">
+<p class="text-sm font-bold tracking-wide">All Transactions</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-transparent text-[#4c9a6c] hover:text-primary pb-3 pt-4 px-2 transition-colors" href="#">
+<p class="text-sm font-bold tracking-wide">Expenses</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-transparent text-[#4c9a6c] hover:text-primary pb-3 pt-4 px-2 transition-colors" href="#">
+<p class="text-sm font-bold tracking-wide">Income</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-transparent text-[#4c9a6c] hover:text-primary pb-3 pt-4 px-2 transition-colors" href="#">
+<p class="text-sm font-bold tracking-wide">Paused</p>
+</a>
+</div>
+</div>
+<!-- Transactions Table Container -->
+<div class="bg-white dark:bg-[#162a1f] rounded-xl border border-[#cfe7d9] dark:border-[#2a3e33] overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-background-light dark:bg-[#1a2f24] border-b border-[#cfe7d9] dark:border-[#2a3e33]">
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-[#4c9a6c]">Merchant / Name</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-[#4c9a6c]">Category</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-[#4c9a6c]">Frequency</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-[#4c9a6c]">Amount</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-[#4c9a6c] text-center">Active</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-[#4c9a6c] text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#cfe7d9] dark:divide-[#2a3e33]">
+<!-- Row 1 -->
+<tr class="hover:bg-[#f8fcfa] dark:hover:bg-[#1c3228] transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-red-100 flex items-center justify-center text-red-600">
+<span class="material-symbols-outlined">play_circle</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[#0d1b13] dark:text-white font-semibold">Netflix Premium</span>
+<span class="text-[#4c9a6c] text-xs">Debit Card **** 4242</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#e7f3ec] dark:bg-[#1a2f24] text-[#0d1b13] dark:text-primary">
+                                    Entertainment
+                                </span>
+</td>
+<td class="px-6 py-5 text-[#4c9a6c] text-sm">Monthly on 1st</td>
+<td class="px-6 py-5">
+<span class="text-[#0d1b13] dark:text-white font-bold">$19.99</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex justify-center">
+<label class="toggle-switch">
+<input checked="" type="checkbox"/>
+<span class="slider"></span>
+</label>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<div class="flex items-center justify-end gap-3">
+<button class="text-primary hover:text-primary/80 font-bold text-xs uppercase tracking-widest px-3 py-2 rounded-lg bg-primary/10 transition-colors">Generate Now</button>
+<button class="text-[#4c9a6c] hover:text-[#0d1b13] dark:hover:text-white">
+<span class="material-symbols-outlined text-xl">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-[#f8fcfa] dark:hover:bg-[#1c3228] transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+<span class="material-symbols-outlined">home</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[#0d1b13] dark:text-white font-semibold">Monthly Rent</span>
+<span class="text-[#4c9a6c] text-xs">Direct Deposit</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#e7f3ec] dark:bg-[#1a2f24] text-[#0d1b13] dark:text-primary">
+                                    Housing
+                                </span>
+</td>
+<td class="px-6 py-5 text-[#4c9a6c] text-sm">Monthly on 1st</td>
+<td class="px-6 py-5">
+<span class="text-[#0d1b13] dark:text-white font-bold">$2,100.00</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex justify-center">
+<label class="toggle-switch">
+<input checked="" type="checkbox"/>
+<span class="slider"></span>
+</label>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<div class="flex items-center justify-end gap-3">
+<button class="text-primary hover:text-primary/80 font-bold text-xs uppercase tracking-widest px-3 py-2 rounded-lg bg-primary/10 transition-colors">Generate Now</button>
+<button class="text-[#4c9a6c] hover:text-[#0d1b13] dark:hover:text-white">
+<span class="material-symbols-outlined text-xl">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 (Paused) -->
+<tr class="hover:bg-[#f8fcfa] dark:hover:bg-[#1c3228] transition-colors group opacity-75">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600">
+<span class="material-symbols-outlined">fitness_center</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[#0d1b13] dark:text-white font-semibold italic">Equinox Gym</span>
+<span class="text-[#4c9a6c] text-xs">Credit Card **** 1188</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#e7f3ec] dark:bg-[#1a2f24] text-[#0d1b13] dark:text-primary">
+                                    Health
+                                </span>
+</td>
+<td class="px-6 py-5 text-[#4c9a6c] text-sm">Weekly on Mon</td>
+<td class="px-6 py-5">
+<span class="text-[#0d1b13] dark:text-white font-bold">$45.00</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex justify-center">
+<label class="toggle-switch">
+<input type="checkbox"/>
+<span class="slider"></span>
+</label>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<div class="flex items-center justify-end gap-3">
+<button class="text-primary hover:text-primary/80 font-bold text-xs uppercase tracking-widest px-3 py-2 rounded-lg bg-primary/10 transition-colors">Generate Now</button>
+<button class="text-[#4c9a6c] hover:text-[#0d1b13] dark:hover:text-white">
+<span class="material-symbols-outlined text-xl">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 (Income) -->
+<tr class="hover:bg-[#f8fcfa] dark:hover:bg-[#1c3228] transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+<span class="material-symbols-outlined">work</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[#0d1b13] dark:text-white font-semibold">TechCorp Salary</span>
+<span class="text-[#4c9a6c] text-xs">Checking Account</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/20 text-[#078829] dark:text-primary">
+                                    Income
+                                </span>
+</td>
+<td class="px-6 py-5 text-[#4c9a6c] text-sm">Bi-weekly (Fri)</td>
+<td class="px-6 py-5">
+<span class="text-primary font-bold">+$4,250.00</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex justify-center">
+<label class="toggle-switch">
+<input checked="" type="checkbox"/>
+<span class="slider"></span>
+</label>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<div class="flex items-center justify-end gap-3">
+<button class="text-primary hover:text-primary/80 font-bold text-xs uppercase tracking-widest px-3 py-2 rounded-lg bg-primary/10 transition-colors">Generate Now</button>
+<button class="text-[#4c9a6c] hover:text-[#0d1b13] dark:hover:text-white">
+<span class="material-symbols-outlined text-xl">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-[#f8fcfa] dark:hover:bg-[#1c3228] transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
+<span class="material-symbols-outlined">cloud</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[#0d1b13] dark:text-white font-semibold">Adobe Creative Cloud</span>
+<span class="text-[#4c9a6c] text-xs">Debit Card **** 4242</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#e7f3ec] dark:bg-[#1a2f24] text-[#0d1b13] dark:text-primary">
+                                    Software
+                                </span>
+</td>
+<td class="px-6 py-5 text-[#4c9a6c] text-sm">Monthly on 15th</td>
+<td class="px-6 py-5">
+<span class="text-[#0d1b13] dark:text-white font-bold">$54.99</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex justify-center">
+<label class="toggle-switch">
+<input checked="" type="checkbox"/>
+<span class="slider"></span>
+</label>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<div class="flex items-center justify-end gap-3">
+<button class="text-primary hover:text-primary/80 font-bold text-xs uppercase tracking-widest px-3 py-2 rounded-lg bg-primary/10 transition-colors">Generate Now</button>
+<button class="text-[#4c9a6c] hover:text-[#0d1b13] dark:hover:text-white">
+<span class="material-symbols-outlined text-xl">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Helper Tip -->
+<div class="flex items-start gap-4 p-4 rounded-xl bg-primary/5 dark:bg-primary/10 border border-primary/20">
+<span class="material-symbols-outlined text-primary">info</span>
+<div class="flex flex-col gap-1">
+<p class="text-sm font-bold text-[#0d1b13] dark:text-white">Pro Tip: Manual Generation</p>
+<p class="text-sm text-[#4c9a6c] dark:text-gray-400">If a recurring transaction happened earlier than scheduled, click "Generate Now" to log it immediately. The next scheduled date will automatically adjust.</p>
+</div>
+</div>
+</main>
+<!-- Simple Footer -->
+<footer class="mt-auto py-8 px-10 border-t border-[#cfe7d9] dark:border-[#2a3e33] text-center">
+<p class="text-xs text-[#4c9a6c] uppercase tracking-widest">© 2024 FinanceTracker Desktop - Your Financial Hub</p>
+</footer>
+</div>
+</body></html>

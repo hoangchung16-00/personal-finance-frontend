@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Budget Planning &amp; Monitoring</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec6d",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#102218",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#0d1b13] dark:text-white transition-colors duration-200">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#cfe7d9] dark:border-[#1e3a2b] px-10 py-3 bg-white dark:bg-[#102218]">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-[#0d1b13] dark:text-white">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-background-dark">
+<span class="material-symbols-outlined text-2xl">account_balance_wallet</span>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Budget Planner</h2>
+</div>
+<label class="flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-[#4c9a6c] flex border-none bg-[#e7f3ec] dark:bg-[#1e3a2b] items-center justify-center pl-4 rounded-l-lg" data-icon="MagnifyingGlass">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d1b13] dark:text-white focus:outline-0 focus:ring-0 border-none bg-[#e7f3ec] dark:bg-[#1e3a2b] focus:border-none h-full placeholder:text-[#4c9a6c] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search budgets..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<nav class="flex items-center gap-9">
+<a class="text-[#0d1b13] dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-primary text-sm font-bold leading-normal border-b-2 border-primary pb-1" href="#">Budgets</a>
+<a class="text-[#0d1b13] dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Savings</a>
+<a class="text-[#0d1b13] dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Reports</a>
+</nav>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-[#0d1b13] text-sm font-bold leading-normal tracking-[0.015em] hover:opacity-90 transition-opacity">
+<span class="truncate">Add Budget</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCrkw3I2IF0-QZBq70_fVYNoO1m4vDYBggG32-DV-sgS9SHmRKR17PlTkUnBehK3P9ZhCDoudstat3d9KG8BA7fAiLjAJIZztqyQ2B2vGwuh41iCd0orkLY9YaMqbd555XCNL1aYV2h98Duda60WLiKnP2VX-zVEerLPifyiszDwm8OLsnhqG1uDxheUKcL0I6LSB5K0xrOBdTWtCGBSkt9KY3jzJMWeK8AObAsuLCXcx1DXdYGR1K8Ks-kwVc5b35KajFlH6mEOqM");'></div>
+</div>
+</header>
+<!-- Main Content Container -->
+<main class="flex flex-1 justify-center py-8">
+<div class="layout-content-container flex flex-col max-w-[1200px] flex-1 px-4 md:px-10">
+<!-- Page Heading -->
+<div class="flex flex-wrap justify-between items-end gap-3 mb-8">
+<div class="flex flex-col gap-2">
+<p class="text-[#0d1b13] dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Budget Planning &amp; Monitoring</p>
+<p class="text-[#4c9a6c] text-base font-normal leading-normal">Manage your monthly and yearly spending limits.</p>
+</div>
+<div class="flex gap-3">
+<div class="flex items-center gap-2 bg-white dark:bg-[#1e3a2b] border border-[#cfe7d9] dark:border-[#2d4d3c] px-4 py-2 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined text-[#4c9a6c]">calendar_today</span>
+<span class="text-sm font-semibold">October 2023</span>
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Tabs Component -->
+<div class="mb-6">
+<div class="flex border-b border-[#cfe7d9] dark:border-[#1e3a2b] px-4 gap-8">
+<a class="flex items-center gap-2 border-b-[3px] border-b-primary text-[#0d1b13] dark:text-white pb-[13px] pt-4" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Monthly</p>
+</a>
+<a class="flex items-center gap-2 border-b-[3px] border-b-transparent text-[#4c9a6c] pb-[13px] pt-4 hover:text-[#0d1b13] dark:hover:text-white" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Yearly</p>
+</a>
+</div>
+</div>
+<!-- Summary Stats -->
+<div class="flex flex-wrap gap-4 mb-8">
+<div class="flex min-w-[200px] flex-1 flex-col gap-2 rounded-xl p-6 bg-white dark:bg-[#162e21] border border-[#cfe7d9] dark:border-[#2d4d3c] shadow-sm">
+<div class="flex justify-between items-start">
+<p class="text-[#4c9a6c] text-sm font-medium uppercase tracking-wider">Total Budget</p>
+<span class="material-symbols-outlined text-[#4c9a6c]">account_balance</span>
+</div>
+<p class="text-[#0d1b13] dark:text-white tracking-tight text-3xl font-bold leading-tight">$12,400.00</p>
+<div class="flex items-center gap-1 text-[#078829] text-sm font-semibold">
+<span class="material-symbols-outlined text-xs">trending_up</span>
+<span>+5.2% from last month</span>
+</div>
+</div>
+<div class="flex min-w-[200px] flex-1 flex-col gap-2 rounded-xl p-6 bg-white dark:bg-[#162e21] border border-[#cfe7d9] dark:border-[#2d4d3c] shadow-sm">
+<div class="flex justify-between items-start">
+<p class="text-[#4c9a6c] text-sm font-medium uppercase tracking-wider">Total Spent</p>
+<span class="material-symbols-outlined text-[#4c9a6c]">shopping_cart</span>
+</div>
+<p class="text-[#0d1b13] dark:text-white tracking-tight text-3xl font-bold leading-tight">$8,150.50</p>
+<div class="flex items-center gap-1 text-[#e72a08] text-sm font-semibold">
+<span class="material-symbols-outlined text-xs">trending_up</span>
+<span>+12.4% from last month</span>
+</div>
+</div>
+<div class="flex min-w-[200px] flex-1 flex-col gap-2 rounded-xl p-6 bg-white dark:bg-[#162e21] border border-[#cfe7d9] dark:border-[#2d4d3c] shadow-sm">
+<div class="flex justify-between items-start">
+<p class="text-[#4c9a6c] text-sm font-medium uppercase tracking-wider">Remaining</p>
+<span class="material-symbols-outlined text-[#4c9a6c]">savings</span>
+</div>
+<p class="text-[#0d1b13] dark:text-white tracking-tight text-3xl font-bold leading-tight">$4,249.50</p>
+<div class="flex items-center gap-1 text-[#078829] text-sm font-semibold">
+<span class="material-symbols-outlined text-xs">info</span>
+<span>12 days left in period</span>
+</div>
+</div>
+</div>
+<!-- Section Header -->
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-[#0d1b13] dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Budget Categories</h2>
+<button class="text-primary text-sm font-bold flex items-center gap-1 hover:underline">
+                            View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Budget Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1: Food & Dining -->
+<div class="flex flex-col gap-4 rounded-xl p-5 bg-white dark:bg-[#162e21] border border-[#cfe7d9] dark:border-[#2d4d3c] hover:shadow-md transition-shadow">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="size-10 bg-orange-100 dark:bg-orange-900/30 text-orange-600 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">restaurant</span>
+</div>
+<div>
+<h3 class="font-bold text-[#0d1b13] dark:text-white">Food &amp; Dining</h3>
+<p class="text-xs text-[#4c9a6c]">12 days remaining</p>
+</div>
+</div>
+<span class="text-xs font-bold px-2 py-1 rounded bg-primary/20 text-[#078829]">On Track</span>
+</div>
+<div class="flex justify-between items-end">
+<div class="flex flex-col">
+<span class="text-2xl font-black text-[#0d1b13] dark:text-white">$450.00</span>
+<span class="text-xs text-[#4c9a6c]">spent of $600.00</span>
+</div>
+<span class="text-lg font-bold text-[#4c9a6c]">75%</span>
+</div>
+<div class="w-full bg-[#e7f3ec] dark:bg-[#1e3a2b] rounded-full h-2.5">
+<div class="bg-primary h-2.5 rounded-full" style="width: 75%"></div>
+</div>
+</div>
+<!-- Card 2: Housing -->
+<div class="flex flex-col gap-4 rounded-xl p-5 bg-white dark:bg-[#162e21] border border-[#cfe7d9] dark:border-[#2d4d3c] hover:shadow-md transition-shadow">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="size-10 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">home</span>
+</div>
+<div>
+<h3 class="font-bold text-[#0d1b13] dark:text-white">Housing</h3>
+<p class="text-xs text-[#4c9a6c]">Monthly payment</p>
+</div>
+</div>
+<span class="text-xs font-bold px-2 py-1 rounded bg-primary/20 text-[#078829]">Paid</span>
+</div>
+<div class="flex justify-between items-end">
+<div class="flex flex-col">
+<span class="text-2xl font-black text-[#0d1b13] dark:text-white">$2,100.00</span>
+<span class="text-xs text-[#4c9a6c]">spent of $2,100.00</span>
+</div>
+<span class="text-lg font-bold text-[#4c9a6c]">100%</span>
+</div>
+<div class="w-full bg-[#e7f3ec] dark:bg-[#1e3a2b] rounded-full h-2.5 overflow-hidden">
+<div class="bg-primary h-2.5 rounded-full" style="width: 100%"></div>
+</div>
+</div>
+<!-- Card 3: Entertainment -->
+<div class="flex flex-col gap-4 rounded-xl p-5 bg-white dark:bg-[#162e21] border border-[#cfe7d9] dark:border-[#2d4d3c] hover:shadow-md transition-shadow">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="size-10 bg-purple-100 dark:bg-purple-900/30 text-purple-600 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">movie</span>
+</div>
+<div>
+<h3 class="font-bold text-[#0d1b13] dark:text-white">Entertainment</h3>
+<p class="text-xs text-[#4c9a6c]">12 days remaining</p>
+</div>
+</div>
+<span class="text-xs font-bold px-2 py-1 rounded bg-red-100 text-red-600">Over Budget</span>
+</div>
+<div class="flex justify-between items-end">
+<div class="flex flex-col">
+<span class="text-2xl font-black text-[#0d1b13] dark:text-white">$320.00</span>
+<span class="text-xs text-[#4c9a6c]">spent of $250.00</span>
+</div>
+<span class="text-lg font-bold text-red-600">128%</span>
+</div>
+<div class="w-full bg-[#e7f3ec] dark:bg-[#1e3a2b] rounded-full h-2.5 overflow-hidden">
+<div class="bg-red-500 h-2.5 rounded-full" style="width: 100%"></div>
+</div>
+</div>
+<!-- Card 4: Transportation -->
+<div class="flex flex-col gap-4 rounded-xl p-5 bg-white dark:bg-[#162e21] border border-[#cfe7d9] dark:border-[#2d4d3c] hover:shadow-md transition-shadow">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="size-10 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">directions_car</span>
+</div>
+<div>
+<h3 class="font-bold text-[#0d1b13] dark:text-white">Transportation</h3>
+<p class="text-xs text-[#4c9a6c]">12 days remaining</p>
+</div>
+</div>
+<span class="text-xs font-bold px-2 py-1 rounded bg-yellow-100 text-yellow-700">Near Limit</span>
+</div>
+<div class="flex justify-between items-end">
+<div class="flex flex-col">
+<span class="text-2xl font-black text-[#0d1b13] dark:text-white">$380.00</span>
+<span class="text-xs text-[#4c9a6c]">spent of $400.00</span>
+</div>
+<span class="text-lg font-bold text-yellow-600">95%</span>
+</div>
+<div class="w-full bg-[#e7f3ec] dark:bg-[#1e3a2b] rounded-full h-2.5 overflow-hidden">
+<div class="bg-yellow-500 h-2.5 rounded-full" style="width: 95%"></div>
+</div>
+</div>
+<!-- Card 5: Utilities -->
+<div class="flex flex-col gap-4 rounded-xl p-5 bg-white dark:bg-[#162e21] border border-[#cfe7d9] dark:border-[#2d4d3c] hover:shadow-md transition-shadow">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="size-10 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">bolt</span>
+</div>
+<div>
+<h3 class="font-bold text-[#0d1b13] dark:text-white">Utilities</h3>
+<p class="text-xs text-[#4c9a6c]">12 days remaining</p>
+</div>
+</div>
+<span class="text-xs font-bold px-2 py-1 rounded bg-primary/20 text-[#078829]">On Track</span>
+</div>
+<div class="flex justify-between items-end">
+<div class="flex flex-col">
+<span class="text-2xl font-black text-[#0d1b13] dark:text-white">$145.00</span>
+<span class="text-xs text-[#4c9a6c]">spent of $300.00</span>
+</div>
+<span class="text-lg font-bold text-[#4c9a6c]">48%</span>
+</div>
+<div class="w-full bg-[#e7f3ec] dark:bg-[#1e3a2b] rounded-full h-2.5 overflow-hidden">
+<div class="bg-primary h-2.5 rounded-full" style="width: 48%"></div>
+</div>
+</div>
+<!-- Add New Budget Empty State / Trigger -->
+<div class="flex flex-col items-center justify-center gap-4 rounded-xl p-5 border-2 border-dashed border-[#cfe7d9] dark:border-[#2d4d3c] hover:bg-white/50 dark:hover:bg-[#1e3a2b]/30 cursor-pointer transition-all">
+<div class="size-12 bg-primary/10 text-primary rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">add</span>
+</div>
+<div class="text-center">
+<h3 class="font-bold text-[#0d1b13] dark:text-white">Create New Budget</h3>
+<p class="text-xs text-[#4c9a6c]">Setup a limit for a new category</p>
+</div>
+</div>
+</div>
+<!-- "Add Budget" Modal Overlay (Simulated) -->
+<div class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+<!-- This is hidden by default, shown for structure visualization -->
+<div class="bg-white dark:bg-[#102218] rounded-2xl w-full max-w-md shadow-2xl overflow-hidden border border-[#cfe7d9] dark:border-[#2d4d3c]">
+<div class="p-6 border-b border-[#cfe7d9] dark:border-[#2d4d3c] flex justify-between items-center">
+<h3 class="text-xl font-bold">Add Budget</h3>
+<button class="material-symbols-outlined text-[#4c9a6c] hover:text-[#0d1b13] dark:hover:text-white">close</button>
+</div>
+<div class="p-6 flex flex-col gap-5">
+<div class="flex flex-col gap-2">
+<label class="text-sm font-bold text-[#4c9a6c]">Category</label>
+<div class="relative">
+<select class="w-full bg-background-light dark:bg-[#1e3a2b] border border-[#cfe7d9] dark:border-[#2d4d3c] rounded-lg px-4 py-2 appearance-none">
+<option>Shopping</option>
+<option>Travel</option>
+<option>Health</option>
+<option>Personal Care</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-2 pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-bold text-[#4c9a6c]">Limit Amount</label>
+<div class="flex items-center bg-background-light dark:bg-[#1e3a2b] border border-[#cfe7d9] dark:border-[#2d4d3c] rounded-lg px-4 py-2">
+<span class="text-[#4c9a6c] font-bold mr-2">$</span>
+<input class="bg-transparent border-none p-0 focus:ring-0 w-full font-bold" placeholder="0.00" type="number"/>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-bold text-[#4c9a6c]">Period</label>
+<div class="flex p-1 bg-background-light dark:bg-[#1e3a2b] rounded-lg">
+<button class="flex-1 py-2 text-sm font-bold bg-white dark:bg-[#162e21] rounded shadow-sm">Monthly</button>
+<button class="flex-1 py-2 text-sm font-bold text-[#4c9a6c]">Yearly</button>
+</div>
+</div>
+<button class="w-full bg-primary text-background-dark font-black py-4 rounded-xl mt-4 hover:opacity-90">Create Budget</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Stats / Footer Summary -->
+<footer class="bg-white dark:bg-[#102218] border-t border-[#cfe7d9] dark:border-[#1e3a2b] px-10 py-6">
+<div class="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-primary animate-pulse"></div>
+<p class="text-sm text-[#4c9a6c]">All accounts synced 2 minutes ago</p>
+</div>
+<div class="flex gap-6 text-sm font-bold">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> 6/8 Budgets On Track</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-red-500 text-sm">warning</span> 1 Over Budget</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-yellow-500 text-sm">priority_high</span> 1 Near Limit</span>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>
