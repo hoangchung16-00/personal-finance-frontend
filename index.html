@@ -4,18 +4,56 @@
   <meta charset="utf-8">
   <title>Personal Finance Management - Frontend</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  
+  <!-- Google Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Application Styles -->
   <link rel="stylesheet" href="assets/styles.css">
+  
+  <!-- AngularJS Core -->
   <script src="node_modules/angular/angular.min.js"></script>
+  
+  <!-- UI Router -->
+  <script src="node_modules/@uirouter/angularjs/release/angular-ui-router.min.js"></script>
+  
+  <!-- Application Module -->
   <script src="app/app.js"></script>
+  <script src="app/app.config.js"></script>
+  
+  <!-- Services -->
+  <script src="app/services/api.service.js"></script>
+  <script src="app/services/auth.service.js"></script>
+  <script src="app/services/ui.service.js"></script>
+  
+  <!-- Common Components -->
+  <script src="app/components/common/modal.component.js"></script>
+  <script src="app/components/common/loading-spinner.component.js"></script>
+  
+  <!-- Layout Components -->
+  <script src="app/components/header/header.component.js"></script>
+  <script src="app/components/sidebar/sidebar.component.js"></script>
+  
+  <!-- Dashboard Components -->
+  <script src="app/components/dashboard/dashboard.component.js"></script>
+  <script src="app/components/dashboard/summary-cards.component.js"></script>
+  <script src="app/components/dashboard/recent-transactions.component.js"></script>
+  
+  <!-- Transactions Components -->
+  <script src="app/components/transactions/transactions.component.js"></script>
+  <script src="app/components/transactions/transaction-item.component.js"></script>
+  
+  <!-- Categories Components -->
+  <script src="app/components/categories/categories.component.js"></script>
+  <script src="app/components/categories/category-item.component.js"></script>
+  
+  <!-- Auth Components -->
+  <script src="app/components/auth/login.component.js"></script>
+  <script src="app/components/auth/signup.component.js"></script>
 </head>
 <body>
-  <header>
-    <h1>Personal Finance Management</h1>
-  </header>
-  <main>
-    <div ng-controller="MainCtrl as main">
-      <p>Welcome to Personal Finance Management frontend.</p>
-    </div>
-  </main>
+  <!-- UI Router View - Main application container -->
+  <div ui-view></div>
 </body>
 </html>

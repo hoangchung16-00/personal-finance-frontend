@@ -1,0 +1,32 @@
+<header class="pfm-header">
+  <div class="pfm-header-content">
+    <div class="pfm-header-left">
+      <div class="pfm-brand">
+        <div class="pfm-brand-icon">
+          <span class="material-symbols-outlined">account_balance_wallet</span>
+        </div>
+        <div class="pfm-brand-text">
+          <h1 class="pfm-brand-title">FinanceApp</h1>
+          <p class="pfm-brand-subtitle">Personal Manager</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="pfm-header-right">
+      <button class="pfm-btn pfm-btn-primary" ng-click="vm.openAddTransaction()">
+        <span class="material-symbols-outlined">add</span>
+        <span>Add Transaction</span>
+      </button>
+      
+      <div class="pfm-user-menu" ng-if="vm.currentUser">
+        <div class="pfm-user-avatar">
+          <img ng-src="{{vm.currentUser.avatar || 'https://via.placeholder.com/40'}}" alt="User avatar" />
+        </div>
+        <div class="pfm-user-info">
+          <p class="pfm-user-name">{{vm.currentUser.name}}</p>
+          <button class="pfm-logout-btn" ng-click="vm.logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

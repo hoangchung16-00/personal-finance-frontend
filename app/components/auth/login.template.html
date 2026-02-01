@@ -1,0 +1,73 @@
+<div class="pfm-auth-page">
+  <div class="pfm-auth-container">
+    <div class="pfm-auth-card">
+      <!-- Logo/Brand -->
+      <div class="pfm-auth-header">
+        <div class="pfm-auth-icon">
+          <span class="material-symbols-outlined">lock</span>
+        </div>
+        <h1 class="pfm-auth-title">Welcome Back</h1>
+        <p class="pfm-auth-subtitle">Manage your wealth and track your goals.</p>
+      </div>
+      
+      <!-- Login Form -->
+      <form ng-submit="vm.login()" class="pfm-auth-form">
+        <!-- Error Message -->
+        <div ng-if="vm.error" class="pfm-alert pfm-alert-error">
+          {{vm.error}}
+        </div>
+        
+        <!-- Email Field -->
+        <div class="pfm-form-group">
+          <label class="pfm-label">Email Address</label>
+          <input type="email" 
+                 ng-model="vm.credentials.email" 
+                 class="pfm-input" 
+                 placeholder="e.g. name@company.com"
+                 required />
+        </div>
+        
+        <!-- Password Field -->
+        <div class="pfm-form-group">
+          <div class="pfm-label-row">
+            <label class="pfm-label">Password</label>
+            <a href="#" class="pfm-link-small">Forgot password?</a>
+          </div>
+          <input type="password" 
+                 ng-model="vm.credentials.password" 
+                 class="pfm-input" 
+                 placeholder="Enter your password"
+                 required />
+        </div>
+        
+        <!-- Remember Me -->
+        <div class="pfm-form-group pfm-checkbox-group">
+          <input type="checkbox" id="remember" class="pfm-checkbox" />
+          <label for="remember" class="pfm-checkbox-label">Remember this device</label>
+        </div>
+        
+        <!-- Submit Button -->
+        <button type="submit" 
+                class="pfm-btn pfm-btn-primary pfm-btn-block pfm-btn-lg"
+                ng-disabled="vm.loading">
+          <span ng-if="!vm.loading">Sign In to WealthTrack</span>
+          <span ng-if="vm.loading">Signing in...</span>
+        </button>
+      </form>
+      
+      <!-- Footer Links -->
+      <div class="pfm-auth-footer">
+        <p class="pfm-auth-footer-text">
+          Don't have an account? 
+          <a ng-click="vm.goToSignup()" class="pfm-link">Create an account</a>
+        </p>
+      </div>
+      
+      <!-- Trust Signal -->
+      <div class="pfm-auth-trust">
+        <span class="material-symbols-outlined">verified_user</span>
+        <span class="pfm-auth-trust-text">256-bit AES Encryption</span>
+      </div>
+    </div>
+  </div>
+</div>
