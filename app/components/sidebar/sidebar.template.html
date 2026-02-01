@@ -1,0 +1,21 @@
+<aside class="pfm-sidebar">
+  <nav class="pfm-nav">
+    <a ng-repeat="item in vm.navItems"
+       ng-class="{'pfm-nav-item': true, 'active': vm.isActive(item.state)}"
+       ng-click="vm.goToState(item.state)">
+      <span class="material-symbols-outlined pfm-nav-icon" 
+            ng-class="{'fill-icon': vm.isActive(item.state)}">{{item.icon}}</span>
+      <span class="pfm-nav-text">{{item.name}}</span>
+    </a>
+  </nav>
+  
+  <div class="pfm-sidebar-footer">
+    <div class="pfm-upgrade-card">
+      <p class="pfm-upgrade-title">Upgrade to Pro</p>
+      <p class="pfm-upgrade-desc">Get advanced analytics and insights.</p>
+      <button class="pfm-btn pfm-btn-primary pfm-btn-block">
+        Unlock All Features
+      </button>
+    </div>
+  </div>
+</aside>

@@ -1,0 +1,25 @@
+<div class="pfm-dashboard">
+  <div class="pfm-page-header">
+    <div class="pfm-page-title-wrapper">
+      <h2 class="pfm-page-title">Dashboard Overview</h2>
+      <p class="pfm-page-subtitle">Welcome back, here's your financial summary for <strong>May 2024</strong></p>
+    </div>
+  </div>
+  
+  <!-- Loading spinner -->
+  <div ng-if="vm.loading" class="pfm-loading">
+    <pf-loading-spinner></pf-loading-spinner>
+  </div>
+  
+  <!-- Dashboard content -->
+  <div ng-if="!vm.loading">
+    <!-- Summary Cards -->
+    <pf-summary-cards stats="vm.stats"></pf-summary-cards>
+    
+    <!-- Recent Transactions -->
+    <pf-recent-transactions></pf-recent-transactions>
+    
+    <!-- Quick Actions (future enhancement) -->
+    <!-- <pf-quick-actions></pf-quick-actions> -->
+  </div>
+</div>

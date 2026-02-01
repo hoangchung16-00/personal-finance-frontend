@@ -1,0 +1,63 @@
+<div class="pfm-transactions-page">
+  <div class="pfm-page-header">
+    <div class="pfm-page-title-wrapper">
+      <h2 class="pfm-page-title">Transactions</h2>
+      <p class="pfm-page-subtitle">Manage your financial transactions</p>
+    </div>
+    <button class="pfm-btn pfm-btn-primary" ng-click="vm.openAddModal()">
+      <span class="material-symbols-outlined">add_circle</span>
+      <span>New Transaction</span>
+    </button>
+  </div>
+  
+  <!-- Filters Panel -->
+  <div class="pfm-filters-panel">
+    <div class="pfm-filter-item">
+      <label>Search</label>
+      <input type="text" 
+             ng-model="vm.filters.search" 
+             ng-change="vm.loadTransactions()"
+             placeholder="Search transactions..."
+             class="pfm-input" />
+    </div>
+    
+    <div class="pfm-filter-item">
+      <label>Date From</label>
+      <input type="date" 
+             ng-model="vm.filters.dateFrom" 
+             ng-change="vm.loadTransactions()"
+             class="pfm-input" />
+    </div>
+    
+    <div class="pfm-filter-item">
+      <label>Date To</label>
+      <input type="date" 
+             ng-model="vm.filters.dateTo" 
+             ng-change="vm.loadTransactions()"
+             class="pfm-input" />
+    </div>
+  </div>
+  
+  <!-- Transactions List -->
+  <div class="pfm-transactions-container">
+    <div ng-if="vm.loading" class="pfm-loading">
+      <pf-loading-spinner></pf-loading-spinner>
+    </div>
+    
+    <div ng-if="!vm.loading && vm.transactions.length > 0" class="pfm-transactions-list">
+      <pf-transaction-item ng-repeat="transaction in vm.transactions"
+                           transaction="transaction"
+                           on-delete="vm.deleteTransaction(transaction.id)">
+      </pf-transaction-item>
+    </div>
+    
+    <div ng-if="!vm.loading && vm.transactions.length === 0" class="pfm-empty-state">
+      <span class="material-symbols-outlined pfm-empty-icon">receipt_long</span>
+      <h3>No transactions found</h3>
+      <p>Start by adding your first transaction</p>
+      <button class="pfm-btn pfm-btn-primary" ng-click="vm.openAddModal()">
+        Add Transaction
+      </button>
+    </div>
+  </div>
+</div>
