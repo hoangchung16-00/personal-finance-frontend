@@ -1,0 +1,118 @@
+<!-- app/components/auth/login.template.html -->
+<!-- Login page template extracted from template/stitch_finance_dashboard_overview/user_authentication_login -->
+
+<div class="min-h-screen flex flex-col font-display">
+  <!-- Top Navigation Bar -->
+  <header class="flex items-center justify-between border-b border-solid border-primary/10 px-6 py-4 md:px-10 lg:px-20 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md sticky top-0 z-50">
+    <div class="flex items-center gap-3">
+      <div class="size-8 bg-primary rounded-lg flex items-center justify-center text-background-dark">
+        <span class="material-symbols-outlined text-2xl font-bold">account_balance_wallet</span>
+      </div>
+      <h2 class="text-background-dark dark:text-white text-xl font-bold leading-tight tracking-tight">FinanceApp</h2>
+    </div>
+    <div class="flex items-center gap-6">
+      <div class="hidden md:flex items-center gap-8">
+        <a class="text-background-dark dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="#">Security</a>
+        <a class="text-background-dark dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="#">Help</a>
+        <a class="text-background-dark dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="#">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 flex items-center justify-center p-6 relative overflow-hidden">
+    <!-- Decorative background element -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
+    
+    <div class="w-full max-w-[460px] relative z-10">
+      <!-- Authentication Card -->
+      <div class="bg-white dark:bg-[#162a1e] rounded-xl shadow-2xl border border-gray-100 dark:border-gray-800 p-8 md:p-10">
+        <!-- Headline & Header -->
+        <div class="text-center mb-8">
+          <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/20 text-primary mb-4">
+            <span class="material-symbols-outlined text-3xl">lock</span>
+          </div>
+          <h1 class="text-background-dark dark:text-white text-3xl font-bold tracking-tight mb-2">Welcome Back</h1>
+          <p class="text-gray-600 dark:text-gray-400 text-base">Manage your wealth and track your goals.</p>
+        </div>
+
+        <!-- Form -->
+        <form ng-submit="$ctrl.login()" class="space-y-5">
+          <!-- Email Field -->
+          <div class="flex flex-col gap-2">
+            <label class="text-background-dark dark:text-gray-200 text-sm font-semibold">Email Address</label>
+            <input 
+              ng-model="$ctrl.credentials.email"
+              class="w-full rounded-lg text-background-dark dark:text-white border border-gray-200 dark:border-gray-700 bg-background-light dark:bg-background-dark focus:ring-2 focus:ring-primary focus:border-primary h-12 px-4 text-base transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600" 
+              placeholder="demo@example.com" 
+              type="email"
+              required
+            />
+          </div>
+
+          <!-- Password Field -->
+          <div class="flex flex-col gap-2">
+            <div class="flex justify-between items-center">
+              <label class="text-background-dark dark:text-gray-200 text-sm font-semibold">Password</label>
+              <a class="text-primary text-xs font-bold hover:underline" href="#">Forgot password?</a>
+            </div>
+            <div class="relative flex items-center">
+              <input 
+                ng-model="$ctrl.credentials.password"
+                class="w-full rounded-lg text-background-dark dark:text-white border border-gray-200 dark:border-gray-700 bg-background-light dark:bg-background-dark focus:ring-2 focus:ring-primary focus:border-primary h-12 px-4 pr-12 text-base transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600" 
+                placeholder="Enter your password" 
+                type="{{ $ctrl.showPassword ? 'text' : 'password' }}"
+                required
+              />
+              <button 
+                class="absolute right-3 text-gray-400 hover:text-primary transition-colors flex items-center justify-center" 
+                type="button"
+                ng-click="$ctrl.togglePasswordVisibility()"
+              >
+                <span class="material-symbols-outlined">{{ $ctrl.showPassword ? 'visibility_off' : 'visibility' }}</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Remember Me -->
+          <div class="flex items-center gap-2 py-1">
+            <input 
+              class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary dark:bg-background-dark dark:border-gray-700" 
+              id="remember" 
+              type="checkbox"
+            />
+            <label class="text-sm text-gray-600 dark:text-gray-400 font-medium cursor-pointer" for="remember">Remember this device</label>
+          </div>
+
+          <!-- Submit Button -->
+          <button 
+            class="w-full flex items-center justify-center rounded-lg h-14 bg-primary text-background-dark text-base font-bold tracking-wide hover:brightness-105 active:scale-[0.98] transition-all shadow-lg shadow-primary/20" 
+            type="submit"
+            ng-disabled="$ctrl.isLoading"
+          >
+            <span ng-if="!$ctrl.isLoading">Sign In to FinanceApp</span>
+            <span ng-if="$ctrl.isLoading">Signing in...</span>
+          </button>
+        </form>
+
+        <!-- Footer Links -->
+        <div class="mt-8 pt-6 border-t border-gray-100 dark:border-gray-800 text-center">
+          <p class="text-gray-600 dark:text-gray-400 text-sm">
+            Demo credentials: Any email/password will work
+          </p>
+        </div>
+
+        <!-- Trust Signal -->
+        <div class="mt-6 flex items-center justify-center gap-2 text-gray-400 dark:text-gray-500">
+          <span class="material-symbols-outlined text-sm">verified_user</span>
+          <span class="text-[11px] uppercase tracking-widest font-bold">256-bit AES Encryption</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Simple Footer -->
+  <footer class="py-6 px-10 text-center text-gray-500 dark:text-gray-500 text-xs">
+    <p>© 2024 FinanceApp. All rights reserved.</p>
+  </footer>
+</div>

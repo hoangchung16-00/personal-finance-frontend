@@ -1,0 +1,96 @@
+<!-- app/components/sidebar/sidebar.template.html -->
+<!-- Sidebar navigation extracted from dashboard template -->
+
+<aside class="w-64 border-r border-[#cfe7d9] dark:border-white/10 bg-white dark:bg-background-dark flex flex-col justify-between p-4 sticky top-0 h-screen">
+  <div class="flex flex-col gap-8">
+    <!-- Logo -->
+    <div class="flex items-center gap-3 px-2">
+      <div class="bg-primary rounded-full size-10 flex items-center justify-center">
+        <span class="material-symbols-outlined text-background-dark font-bold">account_balance_wallet</span>
+      </div>
+      <div class="flex flex-col">
+        <h1 class="text-[#0d1b13] dark:text-white text-base font-bold leading-none">FinanceApp</h1>
+        <p class="text-[#4c9a6c] text-xs font-normal">Personal Manager</p>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="flex flex-col gap-2">
+      <a 
+        ui-sref="dashboard"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors"
+        ng-class="$ctrl.isActive('dashboard') ? 'bg-primary/20 text-[#0d1b13] dark:text-primary font-medium' : 'hover:bg-[#e7f3ec] dark:hover:bg-white/5 text-[#4c9a6c] dark:text-white/70'"
+      >
+        <span class="material-symbols-outlined" ng-class="$ctrl.isActive('dashboard') ? 'fill-icon' : ''">dashboard</span>
+        <span class="text-sm">Dashboard</span>
+      </a>
+      <a 
+        ui-sref="transactions"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors"
+        ng-class="$ctrl.isActive('transactions') ? 'bg-primary/20 text-[#0d1b13] dark:text-primary font-medium' : 'hover:bg-[#e7f3ec] dark:hover:bg-white/5 text-[#4c9a6c] dark:text-white/70'"
+      >
+        <span class="material-symbols-outlined" ng-class="$ctrl.isActive('transactions') ? 'fill-icon' : ''">receipt_long</span>
+        <span class="text-sm">Transactions</span>
+      </a>
+      <a 
+        ui-sref="categories"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors"
+        ng-class="$ctrl.isActive('categories') ? 'bg-primary/20 text-[#0d1b13] dark:text-primary font-medium' : 'hover:bg-[#e7f3ec] dark:hover:bg-white/5 text-[#4c9a6c] dark:text-white/70'"
+      >
+        <span class="material-symbols-outlined" ng-class="$ctrl.isActive('categories') ? 'fill-icon' : ''">category</span>
+        <span class="text-sm">Categories</span>
+      </a>
+      <a 
+        href="#"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#e7f3ec] dark:hover:bg-white/5 transition-colors text-[#4c9a6c] dark:text-white/70"
+      >
+        <span class="material-symbols-outlined">pie_chart</span>
+        <span class="text-sm">Budgets</span>
+      </a>
+      <a 
+        href="#"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#e7f3ec] dark:hover:bg-white/5 transition-colors text-[#4c9a6c] dark:text-white/70"
+      >
+        <span class="material-symbols-outlined">savings</span>
+        <span class="text-sm">Savings</span>
+      </a>
+      <a 
+        href="#"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#e7f3ec] dark:hover:bg-white/5 transition-colors text-[#4c9a6c] dark:text-white/70"
+      >
+        <span class="material-symbols-outlined">settings</span>
+        <span class="text-sm">Settings</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Bottom Section -->
+  <div class="mt-auto">
+    <!-- Upgrade Promo -->
+    <div class="bg-primary/10 rounded-xl p-4 mb-4 border border-primary/20">
+      <p class="text-[#0d1b13] dark:text-white text-xs font-bold mb-1">Upgrade to Pro</p>
+      <p class="text-[#4c9a6c] text-[10px] mb-3">Get advanced analytics and insights.</p>
+      <button class="w-full bg-primary text-[#0d1b13] text-xs font-bold py-2 rounded-lg hover:opacity-90 transition-opacity">
+        Unlock All Features
+      </button>
+    </div>
+
+    <!-- User Profile -->
+    <div class="flex items-center gap-3 px-2 pt-4 border-t border-[#cfe7d9] dark:border-white/10">
+      <div class="size-8 rounded-full bg-primary/20 flex items-center justify-center">
+        <span class="material-symbols-outlined text-primary">person</span>
+      </div>
+      <div class="flex flex-col flex-1">
+        <p class="text-xs font-bold dark:text-white">{{ $ctrl.user.name }}</p>
+        <p class="text-[10px] text-[#4c9a6c]">{{ $ctrl.user.email }}</p>
+      </div>
+      <button 
+        ng-click="$ctrl.logout()"
+        class="text-[#4c9a6c] hover:text-red-500 transition-colors"
+        title="Logout"
+      >
+        <span class="material-symbols-outlined text-sm">logout</span>
+      </button>
+    </div>
+  </div>
+</aside>

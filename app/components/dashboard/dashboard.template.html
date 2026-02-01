@@ -1,0 +1,26 @@
+<!-- app/components/dashboard/dashboard.template.html -->
+<!-- Dashboard main view with summary cards and recent transactions -->
+
+<div class="flex min-h-screen bg-background-light dark:bg-background-dark">
+  <!-- Sidebar -->
+  <sidebar-component></sidebar-component>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-8 overflow-y-auto">
+    <!-- Page Header -->
+    <header-component 
+      page-title="'Dashboard Overview'"
+      user="$ctrl.user"
+      on-add-transaction="$ctrl.addTransaction()"
+    ></header-component>
+
+    <!-- Summary Cards -->
+    <summary-cards-component summary="$ctrl.summary"></summary-cards-component>
+
+    <!-- Recent Transactions -->
+    <recent-transactions-component 
+      transactions="$ctrl.recentTransactions"
+      on-refresh="$ctrl.refresh()"
+    ></recent-transactions-component>
+  </main>
+</div>

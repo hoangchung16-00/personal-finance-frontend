@@ -1,0 +1,105 @@
+<!-- app/components/transactions/transactions.template.html -->
+<!-- Transactions list view with filtering -->
+
+<div class="flex min-h-screen bg-background-light dark:bg-background-dark">
+  <!-- Sidebar -->
+  <sidebar-component></sidebar-component>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-8 overflow-y-auto">
+    <!-- Page Header -->
+    <div class="flex flex-wrap justify-between items-end gap-4 mb-8">
+      <div class="flex flex-col gap-1">
+        <h2 class="text-[#0d1b13] dark:text-white text-3xl font-black tracking-tight">Transaction History</h2>
+        <p class="text-[#4c9a6c] text-sm">View and manage all your transactions</p>
+      </div>
+      <button 
+        class="flex items-center gap-2 bg-primary text-[#0d1b13] px-5 py-2.5 rounded-lg font-bold text-sm shadow-sm hover:shadow-md transition-shadow"
+        ng-click="$ctrl.addTransaction()"
+      >
+        <span class="material-symbols-outlined text-lg">add</span>
+        Add Transaction
+      </button>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="flex flex-wrap gap-4 mb-8">
+      <div class="flex min-w-[240px] flex-1 flex-col gap-2 rounded-xl p-6 bg-white dark:bg-[#1a2e23] border border-[#cfe7d9] dark:border-[#1e3a2a] shadow-sm">
+        <div class="flex items-center justify-between">
+          <p class="text-[#4c9a6c] text-sm font-medium">Total Income</p>
+          <span class="material-symbols-outlined text-[#078829]">trending_up</span>
+        </div>
+        <p class="tracking-tight text-2xl font-bold leading-tight">$4,250.00</p>
+        <p class="text-[#078829] text-xs font-semibold">+12% from last month</p>
+      </div>
+      <div class="flex min-w-[240px] flex-1 flex-col gap-2 rounded-xl p-6 bg-white dark:bg-[#1a2e23] border border-[#cfe7d9] dark:border-[#1e3a2a] shadow-sm">
+        <div class="flex items-center justify-between">
+          <p class="text-[#4c9a6c] text-sm font-medium">Total Expenses</p>
+          <span class="material-symbols-outlined text-[#e72a08]">trending_down</span>
+        </div>
+        <p class="tracking-tight text-2xl font-bold leading-tight">$2,120.50</p>
+        <p class="text-[#e72a08] text-xs font-semibold">-5% from last month</p>
+      </div>
+      <div class="flex min-w-[240px] flex-1 flex-col gap-2 rounded-xl p-6 bg-white dark:bg-[#1a2e23] border border-[#cfe7d9] dark:border-[#1e3a2a] shadow-sm">
+        <div class="flex items-center justify-between">
+          <p class="text-[#4c9a6c] text-sm font-medium">Net Balance</p>
+          <span class="material-symbols-outlined text-primary">account_balance</span>
+        </div>
+        <p class="tracking-tight text-2xl font-bold leading-tight">$2,129.50</p>
+        <p class="text-[#078829] text-xs font-semibold">+8% efficiency</p>
+      </div>
+    </div>
+
+    <!-- Transactions Table -->
+    <div class="bg-white dark:bg-[#1a2e23] rounded-xl border border-[#cfe7d9] dark:border-[#1e3a2a] overflow-hidden shadow-sm">
+      <div class="p-4 border-b border-[#cfe7d9] dark:border-[#1e3a2a] flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <input 
+            ng-model="$ctrl.searchQuery"
+            ng-change="$ctrl.refresh()"
+            class="px-4 py-2 bg-[#e7f3ec] dark:bg-[#253d30] border border-[#cfe7d9] dark:border-[#2d4a3a] rounded-lg text-sm"
+            placeholder="Search transactions..."
+            type="text"
+          />
+        </div>
+        <button 
+          ng-click="$ctrl.refresh()"
+          class="p-2.5 rounded-lg border border-[#cfe7d9] dark:border-[#2d4a3a] hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+        >
+          <span class="material-symbols-outlined">refresh</span>
+        </button>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-gray-50/50 dark:bg-white/5 border-b border-[#cfe7d9] dark:border-[#1e3a2a]">
+              <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-[#4c9a6c]">Date</th>
+              <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-[#4c9a6c]">Category</th>
+              <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-[#4c9a6c]">Description</th>
+              <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-[#4c9a6c] text-right">Amount</th>
+              <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-[#4c9a6c] text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#cfe7d9] dark:divide-[#1e3a2a]">
+            <tr 
+              ng-repeat="transaction in $ctrl.transactions"
+              class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group"
+            >
+              <transaction-item-component 
+                transaction="transaction"
+                on-edit="$ctrl.editTransaction(transaction)"
+                on-delete="$ctrl.deleteTransaction(transaction)"
+              ></transaction-item-component>
+            </tr>
+            <tr ng-if="$ctrl.transactions.length === 0">
+              <td colspan="5" class="px-6 py-8 text-center text-[#4c9a6c]">
+                <p>No transactions found</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>

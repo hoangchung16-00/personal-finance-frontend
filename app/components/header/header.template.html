@@ -1,0 +1,16 @@
+<!-- app/components/header/header.template.html -->
+<!-- Top header navigation extracted from dashboard template -->
+
+<header class="flex flex-wrap justify-between items-end gap-4 mb-8">
+  <div class="flex flex-col gap-1">
+    <h2 class="text-[#0d1b13] dark:text-white text-3xl font-black tracking-tight">{{ $ctrl.pageTitle || 'Dashboard Overview' }}</h2>
+    <p class="text-[#4c9a6c] text-sm">Welcome back, <span class="font-bold">{{ $ctrl.user.name }}</span></p>
+  </div>
+  <button 
+    class="flex items-center gap-2 bg-primary text-[#0d1b13] px-5 py-2.5 rounded-lg font-bold text-sm shadow-sm hover:shadow-md transition-shadow"
+    ng-click="$ctrl.onAddTransaction()"
+  >
+    <span class="material-symbols-outlined text-lg">add</span>
+    Add Transaction
+  </button>
+</header>

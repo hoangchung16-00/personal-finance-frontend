@@ -1,21 +1,85 @@
 <!doctype html>
-<html ng-app="pfmApp">
+<html ng-app="pfmApp" class="light">
 <head>
   <meta charset="utf-8">
   <title>Personal Finance Management - Frontend</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#13ec6d",
+            "background-light": "#f6f8f7",
+            "background-dark": "#102218",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Material Symbols Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  
+  <!-- Custom Styles -->
   <link rel="stylesheet" href="assets/styles.css">
-  <script src="node_modules/angular/angular.min.js"></script>
-  <script src="app/app.js"></script>
 </head>
-<body>
-  <header>
-    <h1>Personal Finance Management</h1>
-  </header>
-  <main>
-    <div ng-controller="MainCtrl as main">
-      <p>Welcome to Personal Finance Management frontend.</p>
-    </div>
-  </main>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#0d1b13] dark:text-white antialiased">
+  <!-- Main App Container -->
+  <div ui-view></div>
+  
+  <!-- Global Modal -->
+  <modal-component></modal-component>
+
+  <!-- AngularJS -->
+  <script src="node_modules/angular/angular.min.js"></script>
+  
+  <!-- UI Router -->
+  <script src="node_modules/@uirouter/angularjs/release/angular-ui-router.min.js"></script>
+  
+  <!-- App Bootstrap -->
+  <script src="app/app.js"></script>
+  <script src="app/app.config.js"></script>
+  
+  <!-- Services -->
+  <script src="app/services/api.service.js"></script>
+  <script src="app/services/auth.service.js"></script>
+  <script src="app/services/ui.service.js"></script>
+  
+  <!-- Components - Auth -->
+  <script src="app/components/auth/login.component.js"></script>
+  
+  <!-- Components - Common -->
+  <script src="app/components/header/header.component.js"></script>
+  <script src="app/components/sidebar/sidebar.component.js"></script>
+  <script src="app/components/common/modal.component.js"></script>
+  
+  <!-- Components - Dashboard -->
+  <script src="app/components/dashboard/dashboard.component.js"></script>
+  <script src="app/components/dashboard/summary-cards.component.js"></script>
+  <script src="app/components/dashboard/recent-transactions.component.js"></script>
+  
+  <!-- Components - Transactions -->
+  <script src="app/components/transactions/transactions.component.js"></script>
+  <script src="app/components/transactions/transaction-item.component.js"></script>
+  
+  <!-- Components - Categories -->
+  <script src="app/components/categories/categories.component.js"></script>
 </body>
 </html>

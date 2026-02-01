@@ -1,0 +1,74 @@
+<!-- app/components/categories/categories.template.html -->
+<!-- Categories management view -->
+
+<div class="flex min-h-screen bg-background-light dark:bg-background-dark">
+  <!-- Sidebar -->
+  <sidebar-component></sidebar-component>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-8 overflow-y-auto">
+    <!-- Page Header -->
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+      <div class="flex flex-col gap-1">
+        <h1 class="text-3xl font-black leading-tight tracking-[-0.033em]">Category Customization</h1>
+        <p class="text-[#4c9a6c] text-base">Manage icons, colors, and organization for your financial data</p>
+      </div>
+      <button 
+        ng-click="$ctrl.addCategory()"
+        class="flex items-center gap-2 bg-primary hover:bg-primary/90 text-[#0d1b13] font-bold px-5 py-2.5 rounded-lg transition-all shadow-sm"
+      >
+        <span class="material-symbols-outlined text-lg">add_circle</span>
+        <span>Add Category</span>
+      </button>
+    </div>
+
+    <!-- Category Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-12">
+      <!-- Category Card -->
+      <div 
+        ng-repeat="category in $ctrl.categories"
+        class="group relative flex flex-col p-5 bg-white dark:bg-[#152a1e] rounded-xl border border-[#e7f3ec] dark:border-[#1e3a2a] shadow-sm hover:shadow-md transition-shadow"
+      >
+        <div class="flex justify-between items-start mb-4">
+          <div class="w-12 h-12 flex items-center justify-center rounded-xl text-white"
+               ng-style="{'background-color': category.color + '20', 'color': category.color}">
+            <span class="material-symbols-outlined text-3xl">{{ category.icon }}</span>
+          </div>
+          <div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button 
+              ng-click="$ctrl.editCategory(category)"
+              class="p-1.5 hover:bg-[#f6f8f7] dark:hover:bg-[#1e3a2a] rounded text-[#4c9a6c]"
+            >
+              <span class="material-symbols-outlined text-sm">edit</span>
+            </button>
+            <button 
+              ng-click="$ctrl.deleteCategory(category)"
+              class="p-1.5 hover:bg-red-50 dark:hover:bg-red-950/30 rounded text-red-500"
+            >
+              <span class="material-symbols-outlined text-sm">delete</span>
+            </button>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg mb-1">{{ category.name }}</h3>
+          <div class="flex items-center gap-2">
+            <span class="inline-block px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider"
+                  ng-style="{'background-color': category.color + '20', 'color': category.color}">
+              {{ category.type }}
+            </span>
+            <span class="text-xs text-[#4c9a6c]">{{ category.color }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add New Placeholder -->
+      <button 
+        ng-click="$ctrl.addCategory()"
+        class="flex flex-col items-center justify-center p-5 bg-transparent border-2 border-dashed border-[#cfe7d9] dark:border-[#1e3a2a] rounded-xl text-[#4c9a6c] hover:bg-primary/5 hover:border-primary/50 transition-all group"
+      >
+        <span class="material-symbols-outlined text-4xl mb-2 group-hover:scale-110 transition-transform">add_circle</span>
+        <span class="font-bold text-sm">Add Category</span>
+      </button>
+    </div>
+  </main>
+</div>
