@@ -1,48 +1,60 @@
-/**
- * Dashboard Component
- * 
- * Main dashboard view showing financial overview with summary cards,
- * recent transactions, and quick actions.
- */
+// Personal Finance Management - Dashboard Component
 (function(){
   'use strict';
   
-  angular
-    .module('pfmApp')
-    .component('pfDashboard', {
+  angular.module('pfmApp')
+    .component('pfmDashboard', {
       templateUrl: 'app/components/dashboard/dashboard.template.html',
-      controller: DashboardController,
-      controllerAs: 'vm'
+      controller: ['ApiService', 'UiService', function(ApiService, UiService) {
+        var ctrl = this;
+        
+        ctrl.$onInit = function() {
+          ctrl.loading = true;
+          ctrl.stats = {};
+          ctrl.recentTransactions = [];
+          ctrl.budgets = [];
+          
+          loadDashboardData();
+        };
+        
+        function loadDashboardData() {
+          // Load stats
+          ApiService.getStats()
+            .then(function(response) {
+              ctrl.stats = response.data;
+            })
+            .catch(function(error) {
+              UiService.error('Failed to load statistics');
+            });
+          
+          // Load recent transactions
+          ApiService.getRecentTransactions(5)
+            .then(function(response) {
+              ctrl.recentTransactions = response.data;
+            })
+            .catch(function(error) {
+              UiService.error('Failed to load recent transactions');
+            });
+          
+          // Mock budget data
+          ctrl.budgets = [
+            { name: 'Housing', spent: 1200, limit: 1500, percentage: 80 },
+            { name: 'Food & Dining', spent: 450, limit: 600, percentage: 75 },
+            { name: 'Entertainment', spent: 280, limit: 200, percentage: 140 },
+            { name: 'Transportation', spent: 150, limit: 300, percentage: 50 }
+          ];
+          
+          ctrl.loading = false;
+        }
+        
+        ctrl.addTransaction = function() {
+          UiService.info('Add transaction modal will open here');
+          // TODO: Open transaction modal
+        };
+        
+        ctrl.viewAllBudgets = function() {
+          UiService.info('Budget management coming soon');
+        };
+      }]
     });
-  
-  DashboardController.$inject = ['ApiService'];
-  
-  function DashboardController(ApiService) {
-    var vm = this;
-    
-    vm.$onInit = onInit;
-    vm.stats = null;
-    vm.loading = true;
-    
-    ////////////
-    
-    function onInit() {
-      loadDashboardData();
-    }
-    
-    function loadDashboardData() {
-      vm.loading = true;
-      
-      ApiService.getDashboardStats()
-        .then(function(response) {
-          vm.stats = response.data;
-          vm.loading = false;
-        })
-        .catch(function(error) {
-          console.error('Error loading dashboard data:', error);
-          vm.loading = false;
-        });
-    }
-  }
-  
 })();

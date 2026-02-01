@@ -1,96 +1,60 @@
-/**
- * Personal Finance Management - Configuration & Routing
- * 
- * This file configures ui-router routes and defines the application states.
- * Protected routes check authentication status via AuthService.
- * 
- * TODO: Integrate backend authentication when API is ready.
- */
+// Personal Finance Management - Route Configuration
 (function(){
   'use strict';
   
-  angular
-    .module('pfmApp')
-    .config(routeConfig)
-    .run(runBlock);
-  
-  routeConfig.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider'];
-  
-  function routeConfig($stateProvider, $urlRouterProvider, $locationProvider) {
-    // Use HTML5 mode for cleaner URLs (no #)
-    $locationProvider.html5Mode(false).hashPrefix('');
-    
-    // Default route
-    $urlRouterProvider.otherwise('/login');
-    
-    // Define application states
-    $stateProvider
-      // Authentication routes (public)
-      .state('login', {
-        url: '/login',
-        template: '<pf-login></pf-login>'
-      })
-      .state('signup', {
-        url: '/signup',
-        template: '<pf-signup></pf-signup>'
-      })
+  angular.module('pfmApp')
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
+      function($stateProvider, $urlRouterProvider, $locationProvider) {
       
-      // Main app layout (protected)
-      .state('app', {
-        abstract: true,
-        template: '<div class="pfm-app-layout">' +
-                  '  <pf-header></pf-header>' +
-                  '  <div class="pfm-content-wrapper">' +
-                  '    <pf-sidebar></pf-sidebar>' +
-                  '    <main class="pfm-main-content" ui-view></main>' +
-                  '  </div>' +
-                  '</div>',
-        resolve: {
-          auth: ['AuthService', function(AuthService) {
-            return AuthService.requireAuth();
-          }]
-        }
-      })
-      
-      // Dashboard (protected)
-      .state('app.dashboard', {
-        url: '/dashboard',
-        template: '<pf-dashboard></pf-dashboard>'
-      })
-      
-      // Transactions (protected)
-      .state('app.transactions', {
-        url: '/transactions',
-        template: '<pf-transactions></pf-transactions>'
-      })
-      
-      // Categories (protected)
-      .state('app.categories', {
-        url: '/categories',
-        template: '<pf-categories></pf-categories>'
+      // Enable HTML5 mode (remove hash from URLs)
+      $locationProvider.html5Mode({
+        enabled: false, // Set to false for simpler setup without server rewrite rules
+        requireBase: false
       });
-  }
-  
-  runBlock.$inject = ['$rootScope', '$state', 'AuthService'];
-  
-  function runBlock($rootScope, $state, AuthService) {
-    // Listen for state change errors (e.g., authentication failures)
-    $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
-      if (error === 'AUTH_REQUIRED') {
-        event.preventDefault();
-        $state.go('login');
-      }
-    });
-    
-    // Check authentication on state change start
-    $rootScope.$on('$stateChangeStart', function(event, toState) {
-      if (toState.name !== 'login' && toState.name !== 'signup') {
-        if (!AuthService.isAuthenticated()) {
-          event.preventDefault();
-          $state.go('login');
-        }
-      }
-    });
-  }
-  
+      
+      // Default route
+      $urlRouterProvider.otherwise('/login');
+      
+      // Define application states/routes
+      $stateProvider
+        // Authentication routes (no auth required)
+        .state('login', {
+          url: '/login',
+          template: '<pfm-login></pfm-login>',
+          data: { requiresAuth: false }
+        })
+        .state('signup', {
+          url: '/signup',
+          template: '<pfm-signup></pfm-signup>',
+          data: { requiresAuth: false }
+        })
+        
+        // Main app routes (auth required)
+        .state('app', {
+          abstract: true,
+          template: '<div class="pfm-layout">' +
+                    '  <pfm-sidebar></pfm-sidebar>' +
+                    '  <div class="pfm-main">' +
+                    '    <pfm-header></pfm-header>' +
+                    '    <div ui-view></div>' +
+                    '  </div>' +
+                    '</div>',
+          data: { requiresAuth: true }
+        })
+        .state('app.dashboard', {
+          url: '/dashboard',
+          template: '<pfm-dashboard></pfm-dashboard>',
+          data: { requiresAuth: true }
+        })
+        .state('app.transactions', {
+          url: '/transactions',
+          template: '<pfm-transactions></pfm-transactions>',
+          data: { requiresAuth: true }
+        })
+        .state('app.categories', {
+          url: '/categories',
+          template: '<pfm-categories></pfm-categories>',
+          data: { requiresAuth: true }
+        });
+    }]);
 })();

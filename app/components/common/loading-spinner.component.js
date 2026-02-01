@@ -1,22 +1,34 @@
-/**
- * Loading Spinner Component
- * 
- * Simple loading spinner for async operations.
- */
+// Personal Finance Management - Loading Spinner Component
 (function(){
   'use strict';
   
-  angular
-    .module('pfmApp')
-    .component('pfLoadingSpinner', {
-      template: '<div class="pfm-spinner">' +
-                '  <div class="pfm-spinner-circle"></div>' +
-                '  <p ng-if="vm.message" class="pfm-spinner-message">{{vm.message}}</p>' +
-                '</div>',
+  angular.module('pfmApp')
+    .component('pfmLoadingSpinner', {
       bindings: {
+        size: '@',
         message: '@'
       },
-      controllerAs: 'vm'
+      template:
+        '<div class="pfm-loading">' +
+        '  <div>' +
+        '    <div class="pfm-spinner" ng-style="{width: $ctrl.spinnerSize, height: $ctrl.spinnerSize}"></div>' +
+        '    <p ng-if="$ctrl.message" class="pfm-text-muted pfm-text-center pfm-mt-2">{{ $ctrl.message }}</p>' +
+        '  </div>' +
+        '</div>',
+      controller: [function() {
+        var ctrl = this;
+        
+        ctrl.$onInit = function() {
+          // Set default size
+          var size = ctrl.size || 'md';
+          var sizeMap = {
+            'sm': '1.5rem',
+            'md': '2rem',
+            'lg': '3rem',
+            'xl': '4rem'
+          };
+          ctrl.spinnerSize = sizeMap[size] || sizeMap['md'];
+        };
+      }]
     });
-  
 })();

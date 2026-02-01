@@ -1,53 +1,79 @@
-/**
- * Summary Cards Component
- * 
- * Displays financial summary cards (balance, income, expenses) on the dashboard.
- */
+// Personal Finance Management - Summary Cards Component
 (function(){
   'use strict';
   
-  angular
-    .module('pfmApp')
-    .component('pfSummaryCards', {
-      template: '<div class="pfm-summary-cards">' +
-                '  <div class="pfm-card pfm-summary-card">' +
-                '    <div class="pfm-card-header">' +
-                '      <p class="pfm-card-label">Total Balance</p>' +
-                '      <span class="material-symbols-outlined pfm-card-icon">account_balance</span>' +
-                '    </div>' +
-                '    <p class="pfm-card-value">${{vm.stats.totalBalance | number:2}}</p>' +
-                '    <div class="pfm-card-trend">' +
-                '      <span class="material-symbols-outlined pfm-trend-icon" ng-class="{\'trend-up\': vm.stats.trend.balance > 0}">trending_{{vm.stats.trend.balance > 0 ? \'up\' : \'down\'}}</span>' +
-                '      <p class="pfm-trend-text" ng-class="{\'trend-positive\': vm.stats.trend.balance > 0, \'trend-negative\': vm.stats.trend.balance < 0}">{{vm.stats.trend.balance > 0 ? \'+\' : \'\'}}{{vm.stats.trend.balance}}% from last month</p>' +
-                '    </div>' +
-                '  </div>' +
-                '  <div class="pfm-card pfm-summary-card">' +
-                '    <div class="pfm-card-header">' +
-                '      <p class="pfm-card-label">Monthly Income</p>' +
-                '      <span class="material-symbols-outlined pfm-card-icon">payments</span>' +
-                '    </div>' +
-                '    <p class="pfm-card-value">${{vm.stats.monthlyIncome | number:2}}</p>' +
-                '    <div class="pfm-card-trend">' +
-                '      <span class="material-symbols-outlined pfm-trend-icon" ng-class="{\'trend-up\': vm.stats.trend.income > 0}">trending_{{vm.stats.trend.income > 0 ? \'up\' : \'down\'}}</span>' +
-                '      <p class="pfm-trend-text" ng-class="{\'trend-positive\': vm.stats.trend.income > 0, \'trend-negative\': vm.stats.trend.income < 0}">{{vm.stats.trend.income > 0 ? \'+\' : \'\'}}{{vm.stats.trend.income}}% from last month</p>' +
-                '    </div>' +
-                '  </div>' +
-                '  <div class="pfm-card pfm-summary-card">' +
-                '    <div class="pfm-card-header">' +
-                '      <p class="pfm-card-label">Monthly Expenses</p>' +
-                '      <span class="material-symbols-outlined pfm-card-icon">shopping_cart</span>' +
-                '    </div>' +
-                '    <p class="pfm-card-value">${{vm.stats.monthlyExpenses | number:2}}</p>' +
-                '    <div class="pfm-card-trend">' +
-                '      <span class="material-symbols-outlined pfm-trend-icon" ng-class="{\'trend-up\': vm.stats.trend.expenses > 0}">trending_{{vm.stats.trend.expenses > 0 ? \'up\' : \'down\'}}</span>' +
-                '      <p class="pfm-trend-text" ng-class="{\'trend-positive\': vm.stats.trend.expenses > 0, \'trend-negative\': vm.stats.trend.expenses < 0}">{{vm.stats.trend.expenses > 0 ? \'+\' : \'\'}}{{vm.stats.trend.expenses}}% efficiency</p>' +
-                '    </div>' +
-                '  </div>' +
-                '</div>',
+  angular.module('pfmApp')
+    .component('pfmSummaryCards', {
       bindings: {
         stats: '<'
       },
-      controllerAs: 'vm'
+      template:
+        '<div class="pfm-grid pfm-grid-cols-3">' +
+        '  <!-- Total Balance -->' +
+        '  <div class="pfm-stat-card">' +
+        '    <div class="pfm-flex" style="justify-content: space-between; align-items: flex-start;">' +
+        '      <p class="pfm-stat-label">Total Balance</p>' +
+        '      <span style="font-size: 1.5rem;">💰</span>' +
+        '    </div>' +
+        '    <p class="pfm-stat-value">{{ $ctrl.formatCurrency($ctrl.stats.totalBalance) }}</p>' +
+        '    <div class="pfm-flex" style="align-items: center; gap: 0.25rem;">' +
+        '      <span ng-if="$ctrl.stats.balanceChange >= 0" style="color: var(--pfm-success); font-size: 0.875rem;">↗</span>' +
+        '      <span ng-if="$ctrl.stats.balanceChange < 0" style="color: var(--pfm-error); font-size: 0.875rem;">↘</span>' +
+        '      <p class="pfm-stat-change" ng-class="{positive: $ctrl.stats.balanceChange >= 0, negative: $ctrl.stats.balanceChange < 0}">' +
+        '        {{ $ctrl.stats.balanceChange >= 0 ? "+" : "" }}{{ $ctrl.stats.balanceChange }}% from last month' +
+        '      </p>' +
+        '    </div>' +
+        '  </div>' +
+        '  <!-- Monthly Income -->' +
+        '  <div class="pfm-stat-card">' +
+        '    <div class="pfm-flex" style="justify-content: space-between; align-items: flex-start;">' +
+        '      <p class="pfm-stat-label">Monthly Income</p>' +
+        '      <span style="font-size: 1.5rem;">💵</span>' +
+        '    </div>' +
+        '    <p class="pfm-stat-value">{{ $ctrl.formatCurrency($ctrl.stats.monthlyIncome) }}</p>' +
+        '    <div class="pfm-flex" style="align-items: center; gap: 0.25rem;">' +
+        '      <span ng-if="$ctrl.stats.incomeChange >= 0" style="color: var(--pfm-success); font-size: 0.875rem;">↗</span>' +
+        '      <span ng-if="$ctrl.stats.incomeChange < 0" style="color: var(--pfm-error); font-size: 0.875rem;">↘</span>' +
+        '      <p class="pfm-stat-change" ng-class="{positive: $ctrl.stats.incomeChange >= 0, negative: $ctrl.stats.incomeChange < 0}">' +
+        '        {{ $ctrl.stats.incomeChange >= 0 ? "+" : "" }}{{ $ctrl.stats.incomeChange }}% from last month' +
+        '      </p>' +
+        '    </div>' +
+        '  </div>' +
+        '  <!-- Monthly Expenses -->' +
+        '  <div class="pfm-stat-card">' +
+        '    <div class="pfm-flex" style="justify-content: space-between; align-items: flex-start;">' +
+        '      <p class="pfm-stat-label">Monthly Expenses</p>' +
+        '      <span style="font-size: 1.5rem;">🛒</span>' +
+        '    </div>' +
+        '    <p class="pfm-stat-value">{{ $ctrl.formatCurrency($ctrl.stats.monthlyExpenses) }}</p>' +
+        '    <div class="pfm-flex" style="align-items: center; gap: 0.25rem;">' +
+        '      <span ng-if="$ctrl.stats.expenseChange >= 0" style="color: var(--pfm-success); font-size: 0.875rem;">↗</span>' +
+        '      <span ng-if="$ctrl.stats.expenseChange < 0" style="color: var(--pfm-error); font-size: 0.875rem;">↘</span>' +
+        '      <p class="pfm-stat-change" ng-class="{positive: $ctrl.stats.expenseChange >= 0, negative: $ctrl.stats.expenseChange < 0}">' +
+        '        +{{ $ctrl.stats.expenseChange }}% efficiency' +
+        '      </p>' +
+        '    </div>' +
+        '  </div>' +
+        '</div>',
+      controller: ['UiService', function(UiService) {
+        var ctrl = this;
+        
+        ctrl.$onInit = function() {
+          if (!ctrl.stats) {
+            ctrl.stats = {
+              totalBalance: 0,
+              balanceChange: 0,
+              monthlyIncome: 0,
+              incomeChange: 0,
+              monthlyExpenses: 0,
+              expenseChange: 0
+            };
+          }
+        };
+        
+        ctrl.formatCurrency = function(amount) {
+          return UiService.formatCurrency(amount || 0);
+        };
+      }]
     });
-  
 })();

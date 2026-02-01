@@ -1,64 +1,48 @@
-/**
- * Login Component
- * 
- * User login form with validation.
- * UI-only for now, integrates with mock AuthService.
- */
+// Personal Finance Management - Login Component
 (function(){
   'use strict';
   
-  angular
-    .module('pfmApp')
-    .component('pfLogin', {
+  angular.module('pfmApp')
+    .component('pfmLogin', {
       templateUrl: 'app/components/auth/login.template.html',
-      controller: LoginController,
-      controllerAs: 'vm'
+      controller: ['$state', 'AuthService', 'UiService', function($state, AuthService, UiService) {
+        var ctrl = this;
+        
+        ctrl.$onInit = function() {
+          ctrl.credentials = {
+            email: '',
+            password: ''
+          };
+          ctrl.rememberMe = false;
+          ctrl.loading = false;
+          ctrl.errorMessage = '';
+          
+          // If already logged in, redirect to dashboard
+          if (AuthService.isAuthenticated()) {
+            $state.go('app.dashboard');
+          }
+        };
+        
+        ctrl.handleLogin = function() {
+          ctrl.loading = true;
+          ctrl.errorMessage = '';
+          
+          AuthService.login(ctrl.credentials.email, ctrl.credentials.password)
+            .then(function(response) {
+              ctrl.loading = false;
+              UiService.success('Welcome back, ' + response.user.name + '!');
+              $state.go('app.dashboard');
+            })
+            .catch(function(error) {
+              ctrl.loading = false;
+              ctrl.errorMessage = error.error || 'Login failed. Please try again.';
+              UiService.error(ctrl.errorMessage);
+            });
+        };
+        
+        ctrl.forgotPassword = function() {
+          UiService.info('Password reset functionality will be available soon.');
+        };
+      }]
     });
-  
-  LoginController.$inject = ['AuthService', '$state'];
-  
-  function LoginController(AuthService, $state) {
-    var vm = this;
-    
-    vm.$onInit = onInit;
-    vm.login = login;
-    vm.goToSignup = goToSignup;
-    
-    vm.credentials = {
-      email: '',
-      password: ''
-    };
-    vm.loading = false;
-    vm.error = null;
-    
-    ////////////
-    
-    function onInit() {
-      // Check if already logged in
-      if (AuthService.isAuthenticated()) {
-        $state.go('app.dashboard');
-      }
-    }
-    
-    function login() {
-      vm.error = null;
-      vm.loading = true;
-      
-      AuthService.login(vm.credentials)
-        .then(function(user) {
-          vm.loading = false;
-          $state.go('app.dashboard');
-        })
-        .catch(function(error) {
-          vm.loading = false;
-          vm.error = 'Invalid credentials. Please try again.';
-          console.error('Login error:', error);
-        });
-    }
-    
-    function goToSignup() {
-      $state.go('signup');
-    }
-  }
-  
 })();

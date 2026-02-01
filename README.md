@@ -1,262 +1,161 @@
-# Personal Finance Management - Frontend
+# personal-finance-frontend
 
-AngularJS 1.x frontend application for the Personal Finance Management System.
+AngularJS 1.x frontend for the Personal Finance Management System.
 
 ## Overview
 
-This is a componentized AngularJS 1.x single-page application (SPA) that provides a user interface for managing personal finances. The application is structured with reusable components and services, following best practices for maintainability and scalability.
+This is a componentized AngularJS 1.8 application that provides a user interface for managing personal finances. The UI is designed to work independently of the backend using mocked data, making it easy to develop and test UI features before API integration.
 
-## Technology Stack
+## Features
 
-- **AngularJS 1.8.x** - Main framework
-- **UI Router** - Client-side routing
-- **Material Symbols** - Icon library
-- **CSS3** - Custom styling with BEM-like naming (`pfm-` prefix)
-- **lite-server** - Development server
+- 🔐 **Authentication**: Login and signup pages (UI-only, mocked)
+- 📊 **Dashboard**: Financial overview with summary cards, charts, and recent transactions
+- 💰 **Transactions**: List, filter, and manage income/expense transactions
+- 🏷️ **Categories**: Customize transaction categories with icons and colors
+- 📱 **Responsive Design**: Works on desktop and mobile devices
+- 🎨 **Clean UI**: Modern design with consistent `pfm-` prefixed CSS classes
 
 ## Project Structure
 
 ```
-personal-finance-frontend/
 ├── app/
-│   ├── app.js                           # Main module definition
-│   ├── app.config.js                    # Routing configuration
-│   ├── services/                        # Shared services
-│   │   ├── api.service.js              # API wrapper with mock data
-│   │   ├── auth.service.js             # Authentication state management
-│   │   └── ui.service.js               # UI utilities (modals, notifications)
-│   └── components/                      # Reusable UI components
-│       ├── auth/                        # Authentication components
-│       │   ├── login.component.js
-│       │   ├── login.template.html
-│       │   └── signup.component.js
-│       ├── common/                      # Common/shared components
-│       │   ├── modal.component.js
-│       │   └── loading-spinner.component.js
-│       ├── header/                      # Header navigation
-│       │   ├── header.component.js
-│       │   └── header.template.html
-│       ├── sidebar/                     # Sidebar navigation
-│       │   ├── sidebar.component.js
-│       │   └── sidebar.template.html
-│       ├── dashboard/                   # Dashboard view
-│       │   ├── dashboard.component.js
-│       │   ├── dashboard.template.html
-│       │   ├── summary-cards.component.js
-│       │   └── recent-transactions.component.js
-│       ├── transactions/                # Transactions management
-│       │   ├── transactions.component.js
-│       │   ├── transactions.template.html
-│       │   └── transaction-item.component.js
-│       └── categories/                  # Categories management
-│           ├── categories.component.js
-│           └── category-item.component.js
+│   ├── app.js                    # Main app module with ui-router
+│   ├── app.config.js             # Route configuration with protected routes
+│   ├── components/
+│   │   ├── auth/                 # Login and signup components
+│   │   ├── common/               # Reusable components (modal, spinner)
+│   │   ├── dashboard/            # Dashboard and sub-components
+│   │   ├── header/               # App header component
+│   │   ├── sidebar/              # Navigation sidebar component
+│   │   ├── transactions/         # Transaction list and management
+│   │   └── categories/           # Category management UI
+│   └── services/
+│       ├── api.service.js        # API wrapper with mocked methods
+│       ├── auth.service.js       # UI-level authentication state
+│       └── ui.service.js         # UI utilities (modals, notifications)
 ├── assets/
-│   └── styles.css                       # Main stylesheet
-├── template/                            # Original UI templates (reference)
-├── index.html                           # Main HTML file
-├── package.json                         # Dependencies and scripts
-└── README.md                            # This file
+│   └── styles.css                # Global styles with pfm- prefix
+├── template/                     # Original HTML templates (reference)
+├── index.html                    # Main HTML file
+└── package.json                  # NPM dependencies
 ```
 
-## Component Architecture
+## Component Map
 
-### Services
+### Core Components
 
-1. **ApiService** (`app/services/api.service.js`)
-   - Wrapper for $http with base URL configuration
-   - Currently returns mock data for all endpoints
-   - TODO: Replace with real API calls when backend is ready
-   - Methods: `getTransactions()`, `getCategories()`, `getDashboardStats()`, etc.
+- **pfmLogin** - Login page with form validation
+- **pfmSignup** - User registration page
+- **pfmHeader** - Top navigation bar with user menu
+- **pfmSidebar** - Side navigation with app links
 
-2. **AuthService** (`app/services/auth.service.js`)
-   - Manages authentication state (login, logout, signup)
-   - Stores user session in localStorage
-   - Provides `isAuthenticated()` and `requireAuth()` for route protection
-   - TODO: Integrate with backend authentication API
+### Feature Components
 
-3. **UiService** (`app/services/ui.service.js`)
-   - Utilities for modals, notifications, and confirmations
-   - Event-based communication for UI components
+- **pfmDashboard** - Main dashboard view
+  - **pfmSummaryCards** - Financial summary stats
+  - **pfmRecentTransactions** - Recent transaction list
+- **pfmTransactions** - Transaction management page
+  - **pfmTransactionItem** - Individual transaction row
+- **pfmCategories** - Category customization page
+  - **pfmCategoryItem** - Individual category card
 
-### Components
+### Common Components
 
-#### Layout Components
-- **Header** - Top navigation with branding and user info
-- **Sidebar** - Side navigation with route links
+- **pfmModal** - Reusable modal dialog
+- **pfmLoadingSpinner** - Loading indicator
 
-#### Page Components
-- **Dashboard** - Overview with summary cards and recent transactions
-- **Transactions** - Full transactions list with filtering
-- **Categories** - Category management interface
-
-#### Reusable Components
-- **Summary Cards** - Financial summary display
-- **Recent Transactions** - Transaction list widget
-- **Transaction Item** - Individual transaction display
-- **Category Item** - Individual category card
-- **Modal** - Reusable modal/dialog
-- **Loading Spinner** - Loading indicator
-
-#### Auth Components
-- **Login** - User login form
-- **Signup** - User registration form
-
-## Setup & Installation
+## Installation & Setup
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
-- npm (v6 or higher)
+- Node.js (v12 or higher)
+- npm
 
-### Installation Steps
+### Steps
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/hoangchung16-00/personal-finance-frontend.git
-   cd personal-finance-frontend
-   ```
-
-2. Install dependencies:
+1. **Install dependencies**:
    ```bash
    npm install
    ```
 
-3. Start the development server:
+2. **Start the development server**:
    ```bash
-   npm run start
+   npm start
    ```
 
-4. Open your browser and navigate to:
-   ```
-   http://localhost:3000
-   ```
+3. **Open in browser**:
+   Navigate to [http://localhost:3000](http://localhost:3000)
 
-## Running the Application
+## Using the Application
 
-### Development Mode (Without Backend)
+### Login
 
-The application is configured to run standalone with mock data. All services return simulated responses, allowing you to develop and test the UI independently.
+The app starts at the login page. Use these demo credentials:
 
-To test the application:
+- **Email**: demo@example.com
+- **Password**: demo123
 
-1. Start the dev server: `npm run start`
-2. Navigate to `http://localhost:3000`
-3. You'll be redirected to the login page
-4. Enter any email/password to "login" (mock authentication)
-5. After login, you'll have access to:
-   - **Dashboard** - View financial summary and recent transactions
-   - **Transactions** - Browse and manage transactions
-   - **Categories** - Manage transaction categories
+Or create a new account using the signup page (data is stored in localStorage).
 
-### Mock Authentication
+### Navigation
 
-The AuthService currently uses mock authentication:
-- Any email/password combination will successfully "log in"
-- User session is stored in localStorage
+After logging in, you'll see:
+
+- **Dashboard** - Overview of your finances with charts and recent transactions
+- **Transactions** - Full list of transactions with filtering options
+- **Categories** - Manage transaction categories
+- **Other features** - Coming soon (Budgets, Savings, Reports)
+
+### Key Features
+
+- All data is mocked - no backend required
+- Navigation uses ui-router for client-side routing
+- Protected routes require authentication
 - Logout clears the session
 
-To test protected routes:
-1. Try accessing `/dashboard` without logging in → redirected to login
-2. Log in with any credentials
-3. Navigate through protected routes (dashboard, transactions, categories)
-4. Click logout to clear session
+## Development Notes
 
-## Routing
+### Mocked Data
 
-The application uses UI Router for client-side routing:
+All API calls in `api.service.js` return mocked data using Angular's `$q.resolve()`. This allows the UI to function without a backend.
 
-- `/login` - Login page (public)
-- `/signup` - Signup page (public)
-- `/dashboard` - Dashboard overview (protected)
-- `/transactions` - Transactions list (protected)
-- `/categories` - Categories management (protected)
+**TODO**: Replace mocked methods with real API calls when the backend is ready. Look for `// TODO:` comments in:
+- `app/services/api.service.js` - API endpoints
+- `app/services/auth.service.js` - Authentication endpoints
 
-Protected routes require authentication and will redirect to `/login` if the user is not authenticated.
+### Styling
 
-## Styling & CSS
+- All custom CSS classes use the `pfm-` prefix
+- Responsive design with flexbox and CSS grid
+- CSS variables for theming (see `:root` in `assets/styles.css`)
 
-### CSS Architecture
+### Adding New Components
 
-- All CSS classes use the `pfm-` prefix to avoid naming collisions
-- Component-based styling approach
-- Responsive design using flexbox and CSS grid
-- Mobile-friendly breakpoints at 768px and 480px
+1. Create component file in appropriate directory
+2. Define component using AngularJS 1.8 `.component()` API
+3. Add script tag to `index.html`
+4. Add route in `app/app.config.js` if needed
 
-### Color Scheme
-
-- **Primary**: `#13ec6d` (bright green)
-- **Background Light**: `#f6f8f7`
-- **Background Dark**: `#102218`
-- **Text Dark**: `#0d1b13`
-- **Text Muted**: `#4c9a6c`
-- **Border**: `#cfe7d9`
-
-### Icons
-
-Material Symbols Outlined icons are used throughout the application. Icons are referenced by name in templates:
-```html
-<span class="material-symbols-outlined">dashboard</span>
+Example:
+```javascript
+angular.module('pfmApp')
+  .component('myComponent', {
+    templateUrl: 'path/to/template.html',
+    controller: ['$scope', function($scope) {
+      // Controller logic
+    }]
+  });
 ```
-
-## Development Workflow
-
-### Adding a New Component
-
-1. Create component file in `app/components/[category]/`
-2. Define component using AngularJS `.component()` API:
-   ```javascript
-   angular.module('pfmApp')
-     .component('pfMyComponent', {
-       templateUrl: 'app/components/[category]/template.html',
-       controller: MyComponentController,
-       controllerAs: 'vm',
-       bindings: {
-         // Input bindings
-       }
-     });
-   ```
-3. Add component script to `index.html`
-4. Add corresponding styles to `assets/styles.css` with `pfm-` prefix
-
-### Adding a New Route
-
-1. Open `app/app.config.js`
-2. Add state definition in `routeConfig` function:
-   ```javascript
-   .state('app.myroute', {
-     url: '/myroute',
-     template: '<pf-my-component></pf-my-component>'
-   })
-   ```
-3. For protected routes, they inherit from `app` abstract state (already protected)
-
-### Mock Data
-
-All mock data is defined in `app/services/api.service.js`. When the backend is ready:
-
-1. Update the `baseUrl` in ApiService
-2. Replace `$q.resolve()` mock responses with `$http` calls
-3. Add proper error handling
 
 ## API Integration (Future)
 
-When integrating with the backend:
+When the backend API is ready:
 
-1. **Update ApiService** (`app/services/api.service.js`):
-   - Set correct `baseUrl`
-   - Replace mock methods with real HTTP calls
-   - Add request/response interceptors for authentication tokens
-
-2. **Update AuthService** (`app/services/auth.service.js`):
-   - Integrate with real authentication endpoints
-   - Handle JWT tokens properly
-   - Implement token refresh logic
-
-3. **Error Handling**:
-   - Add proper error handling in all API calls
-   - Display user-friendly error messages
-   - Handle network failures gracefully
+1. Update `BASE_URL` in `app/services/api.service.js`
+2. Replace mocked methods with real `$http` calls
+3. Update `AuthService` to use real authentication endpoints
+4. Add error handling and loading states
+5. Update CORS configuration if needed
 
 ## Browser Support
 
@@ -265,42 +164,30 @@ When integrating with the backend:
 - Safari (latest)
 - Edge (latest)
 
-## Known Limitations
+## Troubleshooting
 
-- Mock authentication only (no real security)
-- No actual data persistence (localStorage only)
-- Limited mobile menu (sidebar hidden on mobile)
-- No offline support
-- No internationalization (i18n)
+**Issue**: "Module 'ui.router' not found"
+- **Solution**: Run `npm install` to install ui-router dependency
 
-## Future Enhancements
+**Issue**: Scripts not loading
+- **Solution**: Ensure all script paths in `index.html` are correct
 
-- [ ] Integrate with real backend API
-- [ ] Add form validation throughout
-- [ ] Implement mobile responsive sidebar/menu
-- [ ] Add data visualization (charts for cash flow)
-- [ ] Implement budget tracking features
-- [ ] Add savings goals tracker
-- [ ] Add export functionality (CSV, PDF)
-- [ ] Implement search and advanced filtering
-- [ ] Add user profile management
-- [ ] Implement settings page
-- [ ] Add dark mode support
-- [ ] Add unit tests (Jasmine/Karma)
-- [ ] Add e2e tests (Protractor)
+**Issue**: Login not working
+- **Solution**: Check browser console for errors. Use demo credentials: demo@example.com / demo123
 
-## Contributing
+## Next Steps
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+1. ✅ Component structure created
+2. ✅ Routing configured with protected routes
+3. ✅ Mocked data services implemented
+4. 🔲 Integrate with backend API
+5. 🔲 Add transaction modals (create/edit)
+6. 🔲 Add category modals (create/edit)
+7. 🔲 Implement budget management
+8. 🔲 Add savings goals tracker
+9. 🔲 Create analytics and reports
+10. 🔲 Add unit tests
 
 ## License
 
 ISC
-
-## Contact
-
-For questions or issues, please open an issue on GitHub.

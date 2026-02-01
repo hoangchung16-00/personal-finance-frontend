@@ -1,75 +1,105 @@
-/**
- * Transactions Component
- * 
- * Main transactions list view with filtering and sorting capabilities.
- */
+// Personal Finance Management - Transactions Component
 (function(){
   'use strict';
   
-  angular
-    .module('pfmApp')
-    .component('pfTransactions', {
+  angular.module('pfmApp')
+    .component('pfmTransactions', {
       templateUrl: 'app/components/transactions/transactions.template.html',
-      controller: TransactionsController,
-      controllerAs: 'vm'
-    });
-  
-  TransactionsController.$inject = ['ApiService', 'UiService'];
-  
-  function TransactionsController(ApiService, UiService) {
-    var vm = this;
-    
-    vm.$onInit = onInit;
-    vm.loadTransactions = loadTransactions;
-    vm.deleteTransaction = deleteTransaction;
-    vm.openAddModal = openAddModal;
-    
-    vm.transactions = [];
-    vm.loading = true;
-    vm.filters = {
-      search: '',
-      category: null,
-      dateFrom: null,
-      dateTo: null
-    };
-    
-    ////////////
-    
-    function onInit() {
-      loadTransactions();
-    }
-    
-    function loadTransactions() {
-      vm.loading = true;
-      
-      ApiService.getTransactions(vm.filters)
-        .then(function(response) {
-          vm.transactions = response.data;
-          vm.loading = false;
-        })
-        .catch(function(error) {
-          console.error('Error loading transactions:', error);
-          vm.loading = false;
-        });
-    }
-    
-    function deleteTransaction(id) {
-      if (UiService.confirm('Are you sure you want to delete this transaction?')) {
-        ApiService.deleteTransaction(id)
-          .then(function() {
-            UiService.showNotification('Transaction deleted successfully', 'success');
-            loadTransactions();
-          })
-          .catch(function(error) {
-            console.error('Error deleting transaction:', error);
-            UiService.showNotification('Error deleting transaction', 'error');
+      controller: ['ApiService', 'UiService', function(ApiService, UiService) {
+        var ctrl = this;
+        
+        var categoryIcons = {
+          'Income': '💵',
+          'Food': '🍔',
+          'Transport': '🚗',
+          'Entertainment': '🎬',
+          'Shopping': '🛍️',
+          'Electronics': '💻',
+          'Housing': '🏠',
+          'Healthcare': '🏥'
+        };
+        
+        ctrl.$onInit = function() {
+          ctrl.loading = true;
+          ctrl.transactions = [];
+          ctrl.filteredTransactions = [];
+          ctrl.categories = [];
+          ctrl.selectedCategory = '';
+          ctrl.selectedType = '';
+          
+          loadData();
+        };
+        
+        function loadData() {
+          // Load all transactions
+          ApiService.getTransactions()
+            .then(function(response) {
+              ctrl.transactions = response.data;
+              ctrl.filteredTransactions = ctrl.transactions;
+              ctrl.loading = false;
+            })
+            .catch(function(error) {
+              UiService.error('Failed to load transactions');
+              ctrl.loading = false;
+            });
+          
+          // Load categories for filter
+          ApiService.getCategories()
+            .then(function(response) {
+              ctrl.categories = response.data;
+            });
+        }
+        
+        ctrl.filterTransactions = function() {
+          ctrl.filteredTransactions = ctrl.transactions.filter(function(t) {
+            var categoryMatch = !ctrl.selectedCategory || t.category === ctrl.selectedCategory;
+            var typeMatch = !ctrl.selectedType || t.type === ctrl.selectedType;
+            return categoryMatch && typeMatch;
           });
-      }
-    }
-    
-    function openAddModal() {
-      UiService.openModal('addTransaction');
-    }
-  }
-  
+        };
+        
+        ctrl.addTransaction = function() {
+          UiService.info('Add transaction modal will open here');
+          // TODO: Open add transaction modal
+        };
+        
+        ctrl.editTransaction = function(transaction) {
+          UiService.info('Edit transaction: ' + transaction.description);
+          // TODO: Open edit transaction modal
+        };
+        
+        ctrl.deleteTransaction = function(transaction) {
+          if (UiService.confirm('Are you sure you want to delete this transaction?')) {
+            ApiService.deleteTransaction(transaction.id)
+              .then(function() {
+                UiService.success('Transaction deleted successfully');
+                loadData();
+              })
+              .catch(function(error) {
+                UiService.error('Failed to delete transaction');
+              });
+          }
+        };
+        
+        ctrl.exportTransactions = function() {
+          UiService.info('Export functionality coming soon');
+        };
+        
+        ctrl.printTransactions = function() {
+          window.print();
+        };
+        
+        ctrl.getCategoryIcon = function(category) {
+          return categoryIcons[category] || '📝';
+        };
+        
+        ctrl.formatCurrency = function(amount) {
+          return UiService.formatCurrency(amount);
+        };
+        
+        ctrl.formatDate = function(date) {
+          return UiService.formatDate(date);
+        };
+      }]
+    });
 })();

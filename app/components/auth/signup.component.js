@@ -1,91 +1,78 @@
-/**
- * Signup Component
- * 
- * User signup/registration form with validation.
- * UI-only for now, integrates with mock AuthService.
- */
+// Personal Finance Management - Signup Component
 (function(){
   'use strict';
   
-  angular
-    .module('pfmApp')
-    .component('pfSignup', {
-      template: '<div class="pfm-auth-page">' +
-                '  <div class="pfm-auth-container">' +
-                '    <div class="pfm-auth-card">' +
-                '      <div class="pfm-auth-header">' +
-                '        <div class="pfm-auth-icon">' +
-                '          <span class="material-symbols-outlined">person_add</span>' +
-                '        </div>' +
-                '        <h1 class="pfm-auth-title">Create Account</h1>' +
-                '        <p class="pfm-auth-subtitle">Start managing your finances today</p>' +
-                '      </div>' +
-                '      <form ng-submit="vm.signup()" class="pfm-auth-form">' +
-                '        <div ng-if="vm.error" class="pfm-alert pfm-alert-error">{{vm.error}}</div>' +
-                '        <div class="pfm-form-group">' +
-                '          <label class="pfm-label">Full Name</label>' +
-                '          <input type="text" ng-model="vm.userData.name" class="pfm-input" placeholder="John Doe" required />' +
-                '        </div>' +
-                '        <div class="pfm-form-group">' +
-                '          <label class="pfm-label">Email Address</label>' +
-                '          <input type="email" ng-model="vm.userData.email" class="pfm-input" placeholder="john@example.com" required />' +
-                '        </div>' +
-                '        <div class="pfm-form-group">' +
-                '          <label class="pfm-label">Password</label>' +
-                '          <input type="password" ng-model="vm.userData.password" class="pfm-input" placeholder="Create a password" required />' +
-                '        </div>' +
-                '        <button type="submit" class="pfm-btn pfm-btn-primary pfm-btn-block pfm-btn-lg" ng-disabled="vm.loading">' +
-                '          <span ng-if="!vm.loading">Create Account</span>' +
-                '          <span ng-if="vm.loading">Creating account...</span>' +
-                '        </button>' +
-                '      </form>' +
-                '      <div class="pfm-auth-footer">' +
-                '        <p class="pfm-auth-footer-text">Already have an account? <a ng-click="vm.goToLogin()" class="pfm-link">Sign in</a></p>' +
-                '      </div>' +
-                '    </div>' +
-                '  </div>' +
-                '</div>',
-      controller: SignupController,
-      controllerAs: 'vm'
+  angular.module('pfmApp')
+    .component('pfmSignup', {
+      template:
+        '<div class="pfm-flex" style="min-height: 100vh; background: var(--pfm-bg-light);">' +
+        '  <div class="pfm-flex" style="flex: 1; align-items: center; justify-content: center; padding: 2rem;">' +
+        '    <div style="width: 100%; max-width: 460px;">' +
+        '      <div class="pfm-card" style="padding: 2.5rem;">' +
+        '        <div class="pfm-text-center pfm-mb-3">' +
+        '          <h2 style="font-size: 1.5rem; font-weight: 700;">Create Account</h2>' +
+        '          <p class="pfm-text-muted" style="font-size: 0.875rem;">Join Personal Finance Manager today</p>' +
+        '        </div>' +
+        '        <div ng-if="$ctrl.errorMessage" class="pfm-mb-3" style="padding: 0.75rem; background: rgba(231, 42, 8, 0.1); color: var(--pfm-error); border-radius: 0.5rem;">' +
+        '          {{ $ctrl.errorMessage }}' +
+        '        </div>' +
+        '        <form ng-submit="$ctrl.handleSignup()" name="signupForm">' +
+        '          <div class="pfm-form-group">' +
+        '            <label class="pfm-form-label">Full Name</label>' +
+        '            <input type="text" class="pfm-form-control" ng-model="$ctrl.userData.name" placeholder="Your name" required ng-disabled="$ctrl.loading">' +
+        '          </div>' +
+        '          <div class="pfm-form-group">' +
+        '            <label class="pfm-form-label">Email Address</label>' +
+        '            <input type="email" class="pfm-form-control" ng-model="$ctrl.userData.email" placeholder="your.email@example.com" required ng-disabled="$ctrl.loading">' +
+        '          </div>' +
+        '          <div class="pfm-form-group">' +
+        '            <label class="pfm-form-label">Password</label>' +
+        '            <input type="password" class="pfm-form-control" ng-model="$ctrl.userData.password" placeholder="Choose a secure password" required ng-disabled="$ctrl.loading">' +
+        '          </div>' +
+        '          <button type="submit" class="pfm-btn pfm-btn-primary pfm-btn-lg" style="width: 100%; margin-top: 0.5rem;" ng-disabled="$ctrl.loading || signupForm.$invalid">' +
+        '            <span ng-if="!$ctrl.loading">Create Account</span>' +
+        '            <span ng-if="$ctrl.loading">Creating account...</span>' +
+        '          </button>' +
+        '        </form>' +
+        '        <div class="pfm-mt-4 pfm-text-center" style="padding-top: 1.5rem; border-top: 1px solid var(--pfm-border-light);">' +
+        '          <p class="pfm-text-muted" style="font-size: 0.875rem;">' +
+        '            Already have an account? ' +
+        '            <a href="#!/login" style="color: var(--pfm-primary); font-weight: 600; text-decoration: none;">Sign in</a>' +
+        '          </p>' +
+        '        </div>' +
+        '      </div>' +
+        '    </div>' +
+        '  </div>' +
+        '</div>',
+      controller: ['$state', 'AuthService', 'UiService', function($state, AuthService, UiService) {
+        var ctrl = this;
+        
+        ctrl.$onInit = function() {
+          ctrl.userData = {
+            name: '',
+            email: '',
+            password: ''
+          };
+          ctrl.loading = false;
+          ctrl.errorMessage = '';
+        };
+        
+        ctrl.handleSignup = function() {
+          ctrl.loading = true;
+          ctrl.errorMessage = '';
+          
+          AuthService.signup(ctrl.userData)
+            .then(function(response) {
+              ctrl.loading = false;
+              UiService.success('Account created successfully! Welcome, ' + response.user.name);
+              $state.go('app.dashboard');
+            })
+            .catch(function(error) {
+              ctrl.loading = false;
+              ctrl.errorMessage = error.error || 'Signup failed. Please try again.';
+              UiService.error(ctrl.errorMessage);
+            });
+        };
+      }]
     });
-  
-  SignupController.$inject = ['AuthService', '$state'];
-  
-  function SignupController(AuthService, $state) {
-    var vm = this;
-    
-    vm.signup = signup;
-    vm.goToLogin = goToLogin;
-    
-    vm.userData = {
-      name: '',
-      email: '',
-      password: ''
-    };
-    vm.loading = false;
-    vm.error = null;
-    
-    ////////////
-    
-    function signup() {
-      vm.error = null;
-      vm.loading = true;
-      
-      AuthService.signup(vm.userData)
-        .then(function(user) {
-          vm.loading = false;
-          $state.go('app.dashboard');
-        })
-        .catch(function(error) {
-          vm.loading = false;
-          vm.error = 'Error creating account. Please try again.';
-          console.error('Signup error:', error);
-        });
-    }
-    
-    function goToLogin() {
-      $state.go('login');
-    }
-  }
-  
 })();

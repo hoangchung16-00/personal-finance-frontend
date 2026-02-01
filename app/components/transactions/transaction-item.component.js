@@ -1,76 +1,61 @@
-/**
- * Transaction Item Component
- * 
- * Individual transaction display component with edit/delete actions.
- */
+// Personal Finance Management - Transaction Item Component
 (function(){
   'use strict';
   
-  angular
-    .module('pfmApp')
-    .component('pfTransactionItem', {
-      template: '<div class="pfm-transaction-item">' +
-                '  <div class="pfm-transaction-icon" ng-class="vm.getTypeClass()">' +
-                '    <span class="material-symbols-outlined">{{vm.getIcon()}}</span>' +
-                '  </div>' +
-                '  <div class="pfm-transaction-details">' +
-                '    <p class="pfm-transaction-description">{{vm.transaction.description}}</p>' +
-                '    <p class="pfm-transaction-date">{{vm.transaction.date | date:\'MMM dd, yyyy\'}}</p>' +
-                '  </div>' +
-                '  <div class="pfm-transaction-category">' +
-                '    <span class="pfm-badge">{{vm.transaction.category}}</span>' +
-                '  </div>' +
-                '  <div class="pfm-transaction-amount" ng-class="{\'amount-positive\': vm.transaction.amount > 0, \'amount-negative\': vm.transaction.amount < 0}">' +
-                '    <span>{{vm.transaction.amount > 0 ? \'+\' : \'\'}}${{vm.transaction.amount | number:2}}</span>' +
-                '  </div>' +
-                '  <div class="pfm-transaction-actions" ng-if="vm.onDelete">' +
-                '    <button class="pfm-icon-btn" ng-click="vm.edit()">' +
-                '      <span class="material-symbols-outlined">edit</span>' +
-                '    </button>' +
-                '    <button class="pfm-icon-btn pfm-icon-btn-danger" ng-click="vm.delete()">' +
-                '      <span class="material-symbols-outlined">delete</span>' +
-                '    </button>' +
-                '  </div>' +
-                '</div>',
+  angular.module('pfmApp')
+    .component('pfmTransactionItem', {
       bindings: {
         transaction: '<',
+        onEdit: '&',
         onDelete: '&'
       },
-      controller: TransactionItemController,
-      controllerAs: 'vm'
+      template:
+        '<tr style="cursor: pointer;" ng-class="{\'pfm-hover\': $ctrl.hovered}">' +
+        '  <td style="white-space: nowrap; font-size: 0.875rem;">{{ $ctrl.formatDate($ctrl.transaction.date) }}</td>' +
+        '  <td>' +
+        '    <span class="pfm-badge" ng-class="{\'pfm-badge-success\': $ctrl.transaction.type === \'income\', \'pfm-badge-primary\': $ctrl.transaction.type === \'expense\'}\">' +
+        '      {{ $ctrl.transaction.category }}' +
+        '    </span>' +
+        '  </td>' +
+        '  <td class="pfm-text-muted" style="font-size: 0.875rem;">{{ $ctrl.transaction.description }}</td>' +
+        '  <td style="text-align: right; white-space: nowrap;">' +
+        '    <span style="font-size: 0.875rem; font-weight: 700;" ng-class="{\'pfm-text-success\': $ctrl.transaction.type === \'income\', \'pfm-text-error\': $ctrl.transaction.type === \'expense\'}\">' +
+        '      {{ $ctrl.transaction.amount > 0 ? "+" : "" }}{{ $ctrl.formatCurrency($ctrl.transaction.amount) }}' +
+        '    </span>' +
+        '  </td>' +
+        '  <td style="text-align: center; white-space: nowrap;">' +
+        '    <div class="pfm-flex" style="justify-content: center; gap: 0.25rem;">' +
+        '      <button class="pfm-btn pfm-btn-secondary pfm-btn-sm" style="padding: 0.25rem 0.5rem;" ng-click="$ctrl.handleEdit()">' +
+        '        ✏️' +
+        '      </button>' +
+        '      <button class="pfm-btn pfm-btn-secondary pfm-btn-sm" style="padding: 0.25rem 0.5rem;" ng-click="$ctrl.handleDelete()">' +
+        '        🗑️' +
+        '      </button>' +
+        '    </div>' +
+        '  </td>' +
+        '</tr>',
+      controller: ['UiService', function(UiService) {
+        var ctrl = this;
+        
+        ctrl.handleEdit = function() {
+          if (ctrl.onEdit) {
+            ctrl.onEdit({ transaction: ctrl.transaction });
+          }
+        };
+        
+        ctrl.handleDelete = function() {
+          if (ctrl.onDelete) {
+            ctrl.onDelete({ transaction: ctrl.transaction });
+          }
+        };
+        
+        ctrl.formatCurrency = function(amount) {
+          return UiService.formatCurrency(amount);
+        };
+        
+        ctrl.formatDate = function(date) {
+          return UiService.formatDate(date);
+        };
+      }]
     });
-  
-  function TransactionItemController() {
-    var vm = this;
-    
-    vm.getIcon = getIcon;
-    vm.getTypeClass = getTypeClass;
-    vm.edit = edit;
-    vm.delete = deleteTransaction;
-    
-    ////////////
-    
-    function getIcon() {
-      if (vm.transaction.type === 'income') {
-        return 'payments';
-      }
-      return 'shopping_bag';
-    }
-    
-    function getTypeClass() {
-      return vm.transaction.type === 'income' ? 'icon-income' : 'icon-expense';
-    }
-    
-    function edit() {
-      // TODO: Implement edit functionality
-      console.log('Edit transaction:', vm.transaction.id);
-    }
-    
-    function deleteTransaction() {
-      if (vm.onDelete) {
-        vm.onDelete();
-      }
-    }
-  }
-  
 })();

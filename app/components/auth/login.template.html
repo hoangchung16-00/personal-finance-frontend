@@ -1,72 +1,114 @@
-<div class="pfm-auth-page">
-  <div class="pfm-auth-container">
-    <div class="pfm-auth-card">
-      <!-- Logo/Brand -->
-      <div class="pfm-auth-header">
-        <div class="pfm-auth-icon">
-          <span class="material-symbols-outlined">lock</span>
+<!DOCTYPE html>
+<div class="pfm-flex" style="min-height: 100vh; background: var(--pfm-bg-light);">
+  <!-- Decorative Pattern -->
+  <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.03; background-image: radial-gradient(circle at 2px 2px, var(--pfm-text-muted) 1px, transparent 0); background-size: 40px 40px; pointer-events: none;"></div>
+  
+  <!-- Login Card Container -->
+  <div class="pfm-flex" style="flex: 1; align-items: center; justify-content: center; padding: 2rem; position: relative; z-index: 10;">
+    <div style="width: 100%; max-width: 460px;">
+      <!-- Brand Header -->
+      <div class="pfm-text-center pfm-mb-4">
+        <div class="pfm-logo-icon" style="width: 3rem; height: 3rem; margin: 0 auto 1rem; font-size: 1.5rem;">
+          💰
         </div>
-        <h1 class="pfm-auth-title">Welcome Back</h1>
-        <p class="pfm-auth-subtitle">Manage your wealth and track your goals.</p>
+        <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Personal Finance Manager</h1>
+        <p class="pfm-text-muted">Manage your wealth and track your goals</p>
       </div>
       
-      <!-- Login Form -->
-      <form ng-submit="vm.login()" class="pfm-auth-form">
-        <!-- Error Message -->
-        <div ng-if="vm.error" class="pfm-alert pfm-alert-error">
-          {{vm.error}}
-        </div>
-        
-        <!-- Email Field -->
-        <div class="pfm-form-group">
-          <label class="pfm-label">Email Address</label>
-          <input type="email" 
-                 ng-model="vm.credentials.email" 
-                 class="pfm-input" 
-                 placeholder="e.g. name@company.com"
-                 required />
-        </div>
-        
-        <!-- Password Field -->
-        <div class="pfm-form-group">
-          <div class="pfm-label-row">
-            <label class="pfm-label">Password</label>
-            <a href="#" class="pfm-link-small">Forgot password?</a>
+      <!-- Login Card -->
+      <div class="pfm-card" style="padding: 2.5rem;">
+        <div class="pfm-text-center pfm-mb-3">
+          <div style="display: inline-flex; align-items: center; justify-content: center; width: 4rem; height: 4rem; border-radius: 50%; background: rgba(19, 236, 109, 0.2); color: var(--pfm-primary); margin-bottom: 1rem; font-size: 1.5rem;">
+            🔒
           </div>
-          <input type="password" 
-                 ng-model="vm.credentials.password" 
-                 class="pfm-input" 
-                 placeholder="Enter your password"
-                 required />
+          <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">Welcome Back</h2>
+          <p class="pfm-text-muted" style="font-size: 0.875rem;">Sign in to access your dashboard</p>
         </div>
         
-        <!-- Remember Me -->
-        <div class="pfm-form-group pfm-checkbox-group">
-          <input type="checkbox" id="remember" class="pfm-checkbox" />
-          <label for="remember" class="pfm-checkbox-label">Remember this device</label>
+        <!-- Error Message -->
+        <div ng-if="$ctrl.errorMessage" class="pfm-mb-3" style="padding: 0.75rem; background: rgba(231, 42, 8, 0.1); border: 1px solid var(--pfm-error); border-radius: 0.5rem; color: var(--pfm-error); font-size: 0.875rem;">
+          {{ $ctrl.errorMessage }}
         </div>
         
-        <!-- Submit Button -->
-        <button type="submit" 
-                class="pfm-btn pfm-btn-primary pfm-btn-block pfm-btn-lg"
-                ng-disabled="vm.loading">
-          <span ng-if="!vm.loading">Sign In to WealthTrack</span>
-          <span ng-if="vm.loading">Signing in...</span>
-        </button>
-      </form>
-      
-      <!-- Footer Links -->
-      <div class="pfm-auth-footer">
-        <p class="pfm-auth-footer-text">
-          Don't have an account? 
-          <a ng-click="vm.goToSignup()" class="pfm-link">Create an account</a>
-        </p>
+        <!-- Login Form -->
+        <form ng-submit="$ctrl.handleLogin()" name="loginForm">
+          <div class="pfm-form-group">
+            <label class="pfm-form-label">Email Address</label>
+            <input 
+              type="email" 
+              class="pfm-form-control" 
+              ng-model="$ctrl.credentials.email" 
+              placeholder="e.g. demo@example.com" 
+              required
+              ng-disabled="$ctrl.loading">
+          </div>
+          
+          <div class="pfm-form-group">
+            <div class="pfm-flex" style="justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <label class="pfm-form-label" style="margin-bottom: 0;">Password</label>
+              <a href="#" class="pfm-text-muted" style="font-size: 0.75rem; text-decoration: none; font-weight: 600;" ng-click="$ctrl.forgotPassword()">
+                Forgot password?
+              </a>
+            </div>
+            <input 
+              type="password" 
+              class="pfm-form-control" 
+              ng-model="$ctrl.credentials.password" 
+              placeholder="Enter your password" 
+              required
+              ng-disabled="$ctrl.loading">
+          </div>
+          
+          <div class="pfm-form-group">
+            <label style="display: flex; align-items: center; cursor: pointer; font-size: 0.875rem;">
+              <input type="checkbox" ng-model="$ctrl.rememberMe" style="margin-right: 0.5rem;">
+              <span class="pfm-text-muted">Remember this device</span>
+            </label>
+          </div>
+          
+          <button 
+            type="submit" 
+            class="pfm-btn pfm-btn-primary pfm-btn-lg" 
+            style="width: 100%; margin-top: 0.5rem;"
+            ng-disabled="$ctrl.loading || loginForm.$invalid">
+            <span ng-if="!$ctrl.loading">Sign In</span>
+            <span ng-if="$ctrl.loading">Signing in...</span>
+          </button>
+        </form>
+        
+        <!-- Demo Credentials Info -->
+        <div class="pfm-mt-3" style="padding: 0.875rem; background: rgba(19, 236, 109, 0.05); border-radius: 0.5rem; border: 1px dashed var(--pfm-primary);">
+          <p style="font-size: 0.75rem; margin-bottom: 0.5rem; font-weight: 600;">Demo Credentials:</p>
+          <p style="font-size: 0.75rem; color: var(--pfm-text-muted); margin: 0;">
+            <strong>Email:</strong> demo@example.com<br>
+            <strong>Password:</strong> demo123
+          </p>
+        </div>
+        
+        <!-- Footer Links -->
+        <div class="pfm-mt-4 pfm-text-center" style="padding-top: 1.5rem; border-top: 1px solid var(--pfm-border-light);">
+          <p class="pfm-text-muted" style="font-size: 0.875rem;">
+            Don't have an account? 
+            <a href="#!/signup" style="color: var(--pfm-primary); font-weight: 600; text-decoration: none; margin-left: 0.25rem;">
+              Create an account
+            </a>
+          </p>
+        </div>
+        
+        <!-- Trust Signal -->
+        <div class="pfm-mt-3 pfm-text-center">
+          <p class="pfm-text-muted" style="font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+            <span>🔐</span>
+            <span>256-bit AES Encryption</span>
+          </p>
+        </div>
       </div>
       
-      <!-- Trust Signal -->
-      <div class="pfm-auth-trust">
-        <span class="material-symbols-outlined">verified_user</span>
-        <span class="pfm-auth-trust-text">256-bit AES Encryption</span>
+      <!-- Additional Footer -->
+      <div class="pfm-mt-3 pfm-text-center">
+        <p class="pfm-text-muted" style="font-size: 0.75rem;">
+          © 2024 Personal Finance Manager. All rights reserved.
+        </p>
       </div>
     </div>
   </div>

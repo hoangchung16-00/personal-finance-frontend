@@ -1,13 +1,13 @@
 {
   "name": "personal-finance-frontend",
   "version": "1.0.0",
-  "description": "",
+  "description": "AngularJS 1.x frontend for Personal Finance Management System",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "lite-server --baseDir=./ --index=index.html"
   },
-  "keywords": [],
+  "keywords": ["angularjs", "personal-finance", "finance-management"],
   "author": "",
   "license": "ISC",
   "dependencies": {

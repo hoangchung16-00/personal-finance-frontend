@@ -1,93 +1,99 @@
-/**
- * Categories Component
- * 
- * Category management view for creating, editing, and deleting categories.
- */
+// Personal Finance Management - Categories Component
 (function(){
   'use strict';
   
-  angular
-    .module('pfmApp')
-    .component('pfCategories', {
-      template: '<div class="pfm-categories-page">' +
-                '  <div class="pfm-page-header">' +
-                '    <div class="pfm-page-title-wrapper">' +
-                '      <h2 class="pfm-page-title">Category Customization</h2>' +
-                '      <p class="pfm-page-subtitle">Manage icons, colors, and organization for your financial data</p>' +
-                '    </div>' +
-                '    <button class="pfm-btn pfm-btn-primary" ng-click="vm.openAddModal()">' +
-                '      <span class="material-symbols-outlined">add_circle</span>' +
-                '      <span>Add Category</span>' +
-                '    </button>' +
-                '  </div>' +
-                '  <div ng-if="vm.loading" class="pfm-loading">' +
-                '    <pf-loading-spinner></pf-loading-spinner>' +
-                '  </div>' +
-                '  <div ng-if="!vm.loading" class="pfm-categories-grid">' +
-                '    <pf-category-item ng-repeat="category in vm.categories"' +
-                '                      category="category"' +
-                '                      on-delete="vm.deleteCategory(category.id)">' +
-                '    </pf-category-item>' +
-                '    <div class="pfm-category-add-placeholder" ng-click="vm.openAddModal()">' +
-                '      <span class="material-symbols-outlined">add_circle</span>' +
-                '      <span>Add Category</span>' +
-                '    </div>' +
-                '  </div>' +
-                '</div>',
-      controller: CategoriesController,
-      controllerAs: 'vm'
+  angular.module('pfmApp')
+    .component('pfmCategories', {
+      templateUrl: 'app/components/categories/categories.template.html',
+      controller: ['ApiService', 'UiService', function(ApiService, UiService) {
+        var ctrl = this;
+        
+        var iconMap = {
+          'payments': '💵',
+          'restaurant': '🍔',
+          'local_gas_station': '🚗',
+          'movie': '🎬',
+          'shopping_bag': '🛍️',
+          'devices': '💻',
+          'home': '🏠',
+          'local_hospital': '🏥'
+        };
+        
+        ctrl.$onInit = function() {
+          ctrl.loading = true;
+          ctrl.categories = [];
+          ctrl.filteredCategories = [];
+          ctrl.activeTab = 'all';
+          
+          loadCategories();
+        };
+        
+        function loadCategories() {
+          ApiService.getCategories()
+            .then(function(response) {
+              ctrl.categories = response.data;
+              ctrl.filterCategories();
+              ctrl.loading = false;
+            })
+            .catch(function(error) {
+              UiService.error('Failed to load categories');
+              ctrl.loading = false;
+            });
+        }
+        
+        ctrl.setActiveTab = function(tab) {
+          ctrl.activeTab = tab;
+          ctrl.filterCategories();
+        };
+        
+        ctrl.filterCategories = function() {
+          if (ctrl.activeTab === 'all') {
+            ctrl.filteredCategories = ctrl.categories;
+          } else {
+            ctrl.filteredCategories = ctrl.categories.filter(function(cat) {
+              return cat.type === ctrl.activeTab;
+            });
+          }
+        };
+        
+        ctrl.getIncomeCount = function() {
+          return ctrl.categories.filter(function(cat) {
+            return cat.type === 'income';
+          }).length;
+        };
+        
+        ctrl.getExpenseCount = function() {
+          return ctrl.categories.filter(function(cat) {
+            return cat.type === 'expense';
+          }).length;
+        };
+        
+        ctrl.getCategoryIcon = function(icon) {
+          return iconMap[icon] || '📝';
+        };
+        
+        ctrl.addCategory = function() {
+          UiService.info('Add category modal will open here');
+          // TODO: Open add category modal
+        };
+        
+        ctrl.editCategory = function(category) {
+          UiService.info('Edit category: ' + category.name);
+          // TODO: Open edit category modal
+        };
+        
+        ctrl.deleteCategory = function(category) {
+          if (UiService.confirm('Are you sure you want to delete category "' + category.name + '"?')) {
+            ApiService.deleteCategory(category.id)
+              .then(function() {
+                UiService.success('Category deleted successfully');
+                loadCategories();
+              })
+              .catch(function(error) {
+                UiService.error('Failed to delete category');
+              });
+          }
+        };
+      }]
     });
-  
-  CategoriesController.$inject = ['ApiService', 'UiService'];
-  
-  function CategoriesController(ApiService, UiService) {
-    var vm = this;
-    
-    vm.$onInit = onInit;
-    vm.loadCategories = loadCategories;
-    vm.deleteCategory = deleteCategory;
-    vm.openAddModal = openAddModal;
-    
-    vm.categories = [];
-    vm.loading = true;
-    
-    ////////////
-    
-    function onInit() {
-      loadCategories();
-    }
-    
-    function loadCategories() {
-      vm.loading = true;
-      
-      ApiService.getCategories()
-        .then(function(response) {
-          vm.categories = response.data;
-          vm.loading = false;
-        })
-        .catch(function(error) {
-          console.error('Error loading categories:', error);
-          vm.loading = false;
-        });
-    }
-    
-    function deleteCategory(id) {
-      if (UiService.confirm('Are you sure you want to delete this category?')) {
-        ApiService.deleteCategory(id)
-          .then(function() {
-            UiService.showNotification('Category deleted successfully', 'success');
-            loadCategories();
-          })
-          .catch(function(error) {
-            console.error('Error deleting category:', error);
-            UiService.showNotification('Error deleting category', 'error');
-          });
-      }
-    }
-    
-    function openAddModal() {
-      UiService.openModal('addCategory');
-    }
-  }
-  
 })();
