@@ -95,14 +95,14 @@
           <tr ng-repeat="transaction in $ctrl.filteredTransactions" style="position: relative;">
             <td style="white-space: nowrap; font-size: 0.875rem;">{{ $ctrl.formatDate(transaction.date) }}</td>
             <td>
-              <span class="pfm-badge" ng-class="{\'pfm-badge-success\': transaction.type === \'income\', \'pfm-badge-primary\': transaction.type === \'expense\'}" style="display: inline-flex; align-items: center; gap: 0.375rem;">
+              <span class="pfm-badge" ng-class="{'pfm-badge-success': transaction.type === 'income', 'pfm-badge-primary': transaction.type === 'expense'}" style="display: inline-flex; align-items: center; gap: 0.375rem;">
                 <span style="font-size: 0.875rem;">{{ $ctrl.getCategoryIcon(transaction.category) }}</span>
                 {{ transaction.category }}
               </span>
             </td>
             <td class="pfm-text-muted" style="font-size: 0.875rem;">{{ transaction.description }}</td>
             <td style="text-align: right; white-space: nowrap;">
-              <span style="font-size: 0.875rem; font-weight: 700;" ng-class="{\'pfm-text-success\': transaction.type === \'income\', \'pfm-text-error\': transaction.type === \'expense\'}">
+              <span style="font-size: 0.875rem; font-weight: 700;" ng-class="{'pfm-text-success': transaction.type === 'income', 'pfm-text-error': transaction.type === 'expense'}">
                 {{ transaction.amount > 0 ? "+" : "" }}{{ $ctrl.formatCurrency(transaction.amount) }}
               </span>
             </td>

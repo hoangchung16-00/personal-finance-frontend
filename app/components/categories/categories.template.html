@@ -18,7 +18,7 @@
         href="#" 
         class="pfm-flex" 
         style="align-items: center; gap: 0.5rem; padding: 0.75rem 0; border-bottom: 3px solid; text-decoration: none;"
-        ng-class="{\'border-color: var(--pfm-primary); color: var(--pfm-text-dark); font-weight: 700;\': $ctrl.activeTab === \'all\', \'border-color: transparent; color: var(--pfm-text-muted);\': $ctrl.activeTab !== \'all\'}"
+        ng-class="{'border-color: var(--pfm-primary); color: var(--pfm-text-dark); font-weight: 700;': $ctrl.activeTab === 'all', 'border-color: transparent; color: var(--pfm-text-muted);': $ctrl.activeTab !== 'all'}"
         ng-click="$ctrl.setActiveTab('all')">
         <span style="font-size: 0.875rem; font-weight: 700;">All Categories</span>
         <span class="pfm-badge pfm-badge-primary" style="font-size: 0.75rem;">{{ $ctrl.categories.length }}</span>
@@ -27,7 +27,7 @@
         href="#" 
         class="pfm-flex" 
         style="align-items: center; gap: 0.5rem; padding: 0.75rem 0; border-bottom: 3px solid; text-decoration: none;"
-        ng-class="{\'border-color: var(--pfm-primary); color: var(--pfm-text-dark); font-weight: 700;\': $ctrl.activeTab === \'income\', \'border-color: transparent; color: var(--pfm-text-muted);\': $ctrl.activeTab !== \'income\'}"
+        ng-class="{'border-color: var(--pfm-primary); color: var(--pfm-text-dark); font-weight: 700;': $ctrl.activeTab === 'income', 'border-color: transparent; color: var(--pfm-text-muted);': $ctrl.activeTab !== 'income'}"
         ng-click="$ctrl.setActiveTab('income')">
         <span style="font-size: 0.875rem; font-weight: 700;">Income</span>
         <span class="pfm-badge pfm-badge-success" style="font-size: 0.75rem;">{{ $ctrl.getIncomeCount() }}</span>
@@ -36,7 +36,7 @@
         href="#" 
         class="pfm-flex" 
         style="align-items: center; gap: 0.5rem; padding: 0.75rem 0; border-bottom: 3px solid; text-decoration: none;"
-        ng-class="{\'border-color: var(--pfm-primary); color: var(--pfm-text-dark); font-weight: 700;\': $ctrl.activeTab === 'expense', \'border-color: transparent; color: var(--pfm-text-muted);\': $ctrl.activeTab !== \'expense\'}"
+        ng-class="{'border-color: var(--pfm-primary); color: var(--pfm-text-dark); font-weight: 700;': $ctrl.activeTab === 'expense', 'border-color: transparent; color: var(--pfm-text-muted);': $ctrl.activeTab !== 'expense'}"
         ng-click="$ctrl.setActiveTab('expense')">
         <span style="font-size: 0.875rem; font-weight: 700;">Expenses</span>
         <span class="pfm-badge pfm-badge-danger" style="font-size: 0.75rem;">{{ $ctrl.getExpenseCount() }}</span>
