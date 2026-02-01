@@ -85,7 +85,7 @@
         </div>
         <div class="pfm-flex-col" style="overflow: hidden;">
           <p style="font-size: 0.75rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-            {{ $ctrl.currentUser?.name || 'User' }}
+            {{ ($ctrl.currentUser && $ctrl.currentUser.name) || 'User' }}
           </p>
           <p class="pfm-text-muted" style="font-size: 0.625rem;">Standard Plan</p>
         </div>

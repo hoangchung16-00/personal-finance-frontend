@@ -37,12 +37,12 @@
         '            </div>' +
         '          </td>' +
         '          <td>' +
-        '            <span class="pfm-badge" ng-class="{\'pfm-badge-success\': transaction.type === \'income\', \'pfm-badge-danger\': transaction.type === \'expense\'}">' +
+        '            <span class="pfm-badge" ng-class="{&quot;pfm-badge-success&quot;: transaction.type === &quot;income&quot;, &quot;pfm-badge-danger&quot;: transaction.type === &quot;expense&quot;}">' +
         '              {{ transaction.category }}' +
         '            </span>' +
         '          </td>' +
         '          <td style="text-align: right;">' +
-        '            <span style="font-size: 0.875rem; font-weight: 700;" ng-class="{\'pfm-text-success\': transaction.amount > 0, \'pfm-text-error\': transaction.amount < 0}">' +
+        '            <span style="font-size: 0.875rem; font-weight: 700;" ng-class="{&quot;pfm-text-success&quot;: transaction.amount > 0, &quot;pfm-text-error&quot;: transaction.amount < 0}">' +
         '              {{ transaction.amount > 0 ? "+" : "" }}{{ $ctrl.formatCurrency(transaction.amount) }}' +
         '            </span>' +
         '          </td>' +

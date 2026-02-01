@@ -13,7 +13,7 @@
         '<div class="pfm-card" style="position: relative; transition: all 0.2s ease; cursor: pointer;">' +
         '  <div class="pfm-flex pfm-flex-col" style="gap: 1rem;">' +
         '    <div class="pfm-flex" style="justify-content: space-between; align-items: flex-start;">' +
-        '      <div style="width: 3rem; height: 3rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;" ng-style="{background: $ctrl.category.color + \'20\'}">' +
+        '      <div style="width: 3rem; height: 3rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;" ng-style="{background: $ctrl.category.color + &quot;20&quot;}">' +
         '        <span>{{ $ctrl.getIcon() }}</span>' +
         '      </div>' +
         '      <div class="pfm-flex" style="gap: 0.25rem;">' +

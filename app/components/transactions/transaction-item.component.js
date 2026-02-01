@@ -10,16 +10,16 @@
         onDelete: '&'
       },
       template:
-        '<tr style="cursor: pointer;" ng-class="{\'pfm-hover\': $ctrl.hovered}">' +
+        '<tr style="cursor: pointer;" ng-class="{&quot;pfm-hover&quot;: $ctrl.hovered}">' +
         '  <td style="white-space: nowrap; font-size: 0.875rem;">{{ $ctrl.formatDate($ctrl.transaction.date) }}</td>' +
         '  <td>' +
-        '    <span class="pfm-badge" ng-class="{\'pfm-badge-success\': $ctrl.transaction.type === \'income\', \'pfm-badge-primary\': $ctrl.transaction.type === \'expense\'}\">' +
+        '    <span class="pfm-badge" ng-class="{&quot;pfm-badge-success&quot;: $ctrl.transaction.type === &quot;income&quot;, &quot;pfm-badge-primary&quot;: $ctrl.transaction.type === &quot;expense&quot;}">' +
         '      {{ $ctrl.transaction.category }}' +
         '    </span>' +
         '  </td>' +
         '  <td class="pfm-text-muted" style="font-size: 0.875rem;">{{ $ctrl.transaction.description }}</td>' +
         '  <td style="text-align: right; white-space: nowrap;">' +
-        '    <span style="font-size: 0.875rem; font-weight: 700;" ng-class="{\'pfm-text-success\': $ctrl.transaction.type === \'income\', \'pfm-text-error\': $ctrl.transaction.type === \'expense\'}\">' +
+        '    <span style="font-size: 0.875rem; font-weight: 700;" ng-class="{&quot;pfm-text-success&quot;: $ctrl.transaction.type === &quot;income&quot;, &quot;pfm-text-error&quot;: $ctrl.transaction.type === &quot;expense&quot;}">' +
         '      {{ $ctrl.transaction.amount > 0 ? "+" : "" }}{{ $ctrl.formatCurrency($ctrl.transaction.amount) }}' +
         '    </span>' +
         '  </td>' +
