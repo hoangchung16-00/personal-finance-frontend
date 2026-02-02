@@ -117,11 +117,13 @@ After logging in, you'll see:
 
 ### Mocked Data
 
-All API calls in `api.service.js` return mocked data using Angular's `$q.resolve()`. This allows the UI to function without a backend.
+**Note:** The application is now integrated with the backend API. The mock data has been replaced with real API calls.
 
-**TODO**: Replace mocked methods with real API calls when the backend is ready. Look for `// TODO:` comments in:
-- `app/services/api.service.js` - API endpoints
-- `app/services/auth.service.js` - Authentication endpoints
+For development without a backend, you can temporarily use the mocked data by:
+1. Keeping an older version of `api.service.js`
+2. Or running the frontend standalone (it will show API connection errors)
+
+For proper API integration, see [API_INTEGRATION.md](API_INTEGRATION.md).
 
 ### Styling
 
@@ -147,15 +149,26 @@ angular.module('pfmApp')
   });
 ```
 
-## API Integration (Future)
+## API Integration
 
-When the backend API is ready:
+The application is now integrated with the backend API! See [API_INTEGRATION.md](API_INTEGRATION.md) for detailed documentation.
 
-1. Update `BASE_URL` in `app/services/api.service.js`
-2. Replace mocked methods with real `$http` calls
-3. Update `AuthService` to use real authentication endpoints
-4. Add error handling and loading states
-5. Update CORS configuration if needed
+**Key Changes:**
+- All API endpoints are now connected to the backend
+- Bearer token authentication using API keys
+- Full CRUD operations for accounts, categories, and transactions
+- Global error handling via HTTP interceptor
+
+**To use the API:**
+1. Start the backend server (Rails API)
+2. Generate an API key via Rails console
+3. Set the API key in localStorage (see API_INTEGRATION.md)
+4. Start the frontend and navigate to the dashboard
+
+**Important:** The BASE_URL in `app/services/api.service.js` may need to be updated for development:
+```javascript
+var BASE_URL = 'http://localhost:3000/api/v1'; // For local development
+```
 
 ## Browser Support
 
@@ -180,13 +193,14 @@ When the backend API is ready:
 1. ✅ Component structure created
 2. ✅ Routing configured with protected routes
 3. ✅ Mocked data services implemented
-4. 🔲 Integrate with backend API
+4. ✅ Integrated with backend API
 5. 🔲 Add transaction modals (create/edit)
 6. 🔲 Add category modals (create/edit)
-7. 🔲 Implement budget management
-8. 🔲 Add savings goals tracker
-9. 🔲 Create analytics and reports
-10. 🔲 Add unit tests
+7. 🔲 Add account management UI
+8. 🔲 Implement budget management
+9. 🔲 Add savings goals tracker
+10. 🔲 Create analytics and reports
+11. 🔲 Add unit tests
 
 ## License
 
