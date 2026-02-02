@@ -1,182 +1,210 @@
 // Personal Finance Management - API Service
-// TODO: Replace mocked methods with real API calls when backend is ready
+// Integrated with backend API
 (function(){
   'use strict';
   
   angular.module('pfmApp')
-    .service('ApiService', ['$http', '$q', function($http, $q) {
+    .service('ApiService', ['$http', '$q', 'API_CONFIG', function($http, $q, API_CONFIG) {
       var service = this;
-      var BASE_URL = '/api'; // TODO: Update with actual API base URL
+      var BASE_URL = API_CONFIG.BASE_URL; // Backend API base URL from config
       
-      // Helper function to make HTTP requests (for future use)
-      function request(method, endpoint, data) {
-        return $http({
-          method: method,
-          url: BASE_URL + endpoint,
-          data: data
-        });
+      // Get API key from localStorage
+      function getApiKey() {
+        return localStorage.getItem('pfm_api_key');
       }
       
-      // ============ MOCKED DATA ============
-      var mockTransactions = [
-        {
-          id: 1,
-          date: '2024-05-24',
-          category: 'Electronics',
-          description: 'Apple Store - Electronic purchase',
-          amount: -1299.00,
-          type: 'expense'
-        },
-        {
-          id: 2,
-          date: '2024-05-20',
-          category: 'Income',
-          description: 'Tech Corp Salary - Monthly paycheck',
-          amount: 5200.00,
-          type: 'income'
-        },
-        {
-          id: 3,
-          date: '2024-05-18',
-          category: 'Food',
-          description: 'The Green Cafe - Lunch with client',
-          amount: -42.50,
-          type: 'expense'
-        },
-        {
-          id: 4,
-          date: '2024-05-15',
-          category: 'Transport',
-          description: 'Shell Gas Station',
-          amount: -65.00,
-          type: 'expense'
-        },
-        {
-          id: 5,
-          date: '2024-05-12',
-          category: 'Entertainment',
-          description: 'Netflix Monthly Subscription',
-          amount: -15.99,
-          type: 'expense'
+      // Helper function to make authenticated HTTP requests
+      function request(method, endpoint, data, params) {
+        var apiKey = getApiKey();
+        var config = {
+          method: method,
+          url: BASE_URL + endpoint,
+          headers: {}
+        };
+        
+        // Add Authorization header if API key exists
+        if (apiKey) {
+          config.headers['Authorization'] = 'Bearer ' + apiKey;
         }
-      ];
+        
+        // Add data for POST/PATCH/PUT
+        if (data) {
+          config.data = data;
+        }
+        
+        // Add query parameters
+        if (params) {
+          config.params = params;
+        }
+        
+        return $http(config);
+      }
       
-      var mockCategories = [
-        { id: 1, name: 'Income', icon: 'payments', color: '#13ec6d', type: 'income' },
-        { id: 2, name: 'Food', icon: 'restaurant', color: '#FF9800', type: 'expense' },
-        { id: 3, name: 'Transport', icon: 'local_gas_station', color: '#2196F3', type: 'expense' },
-        { id: 4, name: 'Entertainment', icon: 'movie', color: '#9C27B0', type: 'expense' },
-        { id: 5, name: 'Shopping', icon: 'shopping_bag', color: '#E91E63', type: 'expense' },
-        { id: 6, name: 'Electronics', icon: 'devices', color: '#607D8B', type: 'expense' },
-        { id: 7, name: 'Housing', icon: 'home', color: '#795548', type: 'expense' },
-        { id: 8, name: 'Healthcare', icon: 'local_hospital', color: '#F44336', type: 'expense' }
-      ];
+      // ============ ACCOUNTS API ============
       
-      var mockStats = {
-        totalBalance: 24560.00,
-        balanceChange: 2.5,
-        monthlyIncome: 5200.00,
-        incomeChange: -1.2,
-        monthlyExpenses: 3120.00,
-        expenseChange: 0.8
+      // GET /api/v1/accounts - List all accounts
+      service.getAccounts = function() {
+        return request('GET', '/accounts');
+      };
+      
+      // GET /api/v1/accounts/:id - Get account details
+      service.getAccount = function(id) {
+        return request('GET', '/accounts/' + id);
+      };
+      
+      // POST /api/v1/accounts - Create account
+      service.createAccount = function(accountData) {
+        return request('POST', '/accounts', { account: accountData });
+      };
+      
+      // PATCH /api/v1/accounts/:id - Update account
+      service.updateAccount = function(id, accountData) {
+        return request('PATCH', '/accounts/' + id, { account: accountData });
+      };
+      
+      // DELETE /api/v1/accounts/:id - Delete account
+      service.deleteAccount = function(id) {
+        return request('DELETE', '/accounts/' + id);
       };
       
       // ============ TRANSACTIONS API ============
-      // TODO: Replace with real API call - GET /api/transactions
+      
+      // GET /api/v1/transactions - List all transactions with optional filters
       service.getTransactions = function(filters) {
-        return $q.resolve({
-          data: mockTransactions.filter(function(t) {
-            if (filters && filters.category && filters.category !== 'all') {
-              return t.category.toLowerCase() === filters.category.toLowerCase();
-            }
-            return true;
-          })
-        });
+        var params = {};
+        if (filters) {
+          if (filters.start_date) params.start_date = filters.start_date;
+          if (filters.end_date) params.end_date = filters.end_date;
+          if (filters.transaction_type) params.transaction_type = filters.transaction_type;
+          if (filters.category_id) params.category_id = filters.category_id;
+        }
+        return request('GET', '/transactions', null, params);
       };
       
-      // TODO: Replace with real API call - GET /api/transactions/:id
+      // GET /api/v1/accounts/:account_id/transactions - List transactions for an account
+      service.getAccountTransactions = function(accountId, filters) {
+        var params = {};
+        if (filters) {
+          if (filters.start_date) params.start_date = filters.start_date;
+          if (filters.end_date) params.end_date = filters.end_date;
+          if (filters.transaction_type) params.transaction_type = filters.transaction_type;
+          if (filters.category_id) params.category_id = filters.category_id;
+        }
+        return request('GET', '/accounts/' + accountId + '/transactions', null, params);
+      };
+      
+      // GET /api/v1/transactions/:id - Get transaction details
       service.getTransaction = function(id) {
-        var transaction = mockTransactions.find(function(t) { return t.id === parseInt(id); });
-        return $q.resolve({ data: transaction });
+        return request('GET', '/transactions/' + id);
       };
       
-      // TODO: Replace with real API call - POST /api/transactions
-      service.createTransaction = function(transaction) {
-        var newTransaction = angular.extend({}, transaction, {
-          id: mockTransactions.length + 1,
-          date: transaction.date || new Date().toISOString().split('T')[0]
-        });
-        mockTransactions.unshift(newTransaction);
-        return $q.resolve({ data: newTransaction });
+      // POST /api/v1/accounts/:account_id/transactions - Create transaction
+      service.createTransaction = function(accountId, transactionData) {
+        return request('POST', '/accounts/' + accountId + '/transactions', { transaction: transactionData });
       };
       
-      // TODO: Replace with real API call - PUT /api/transactions/:id
-      service.updateTransaction = function(id, transaction) {
-        var index = mockTransactions.findIndex(function(t) { return t.id === parseInt(id); });
-        if (index !== -1) {
-          mockTransactions[index] = angular.extend({}, mockTransactions[index], transaction);
-          return $q.resolve({ data: mockTransactions[index] });
-        }
-        return $q.reject({ error: 'Transaction not found' });
+      // PATCH /api/v1/transactions/:id - Update transaction
+      service.updateTransaction = function(id, transactionData) {
+        return request('PATCH', '/transactions/' + id, { transaction: transactionData });
       };
       
-      // TODO: Replace with real API call - DELETE /api/transactions/:id
+      // DELETE /api/v1/transactions/:id - Delete transaction
       service.deleteTransaction = function(id) {
-        var index = mockTransactions.findIndex(function(t) { return t.id === parseInt(id); });
-        if (index !== -1) {
-          mockTransactions.splice(index, 1);
-          return $q.resolve({ success: true });
-        }
-        return $q.reject({ error: 'Transaction not found' });
+        return request('DELETE', '/transactions/' + id);
       };
       
       // ============ CATEGORIES API ============
-      // TODO: Replace with real API call - GET /api/categories
+      
+      // GET /api/v1/categories - List all categories
       service.getCategories = function() {
-        return $q.resolve({ data: mockCategories });
+        return request('GET', '/categories');
       };
       
-      // TODO: Replace with real API call - POST /api/categories
-      service.createCategory = function(category) {
-        var newCategory = angular.extend({}, category, {
-          id: mockCategories.length + 1
-        });
-        mockCategories.push(newCategory);
-        return $q.resolve({ data: newCategory });
+      // GET /api/v1/categories/:id - Get category details
+      service.getCategory = function(id) {
+        return request('GET', '/categories/' + id);
       };
       
-      // TODO: Replace with real API call - PUT /api/categories/:id
-      service.updateCategory = function(id, category) {
-        var index = mockCategories.findIndex(function(c) { return c.id === parseInt(id); });
-        if (index !== -1) {
-          mockCategories[index] = angular.extend({}, mockCategories[index], category);
-          return $q.resolve({ data: mockCategories[index] });
-        }
-        return $q.reject({ error: 'Category not found' });
+      // POST /api/v1/categories - Create category
+      service.createCategory = function(categoryData) {
+        return request('POST', '/categories', { category: categoryData });
       };
       
-      // TODO: Replace with real API call - DELETE /api/categories/:id
+      // PATCH /api/v1/categories/:id - Update category
+      service.updateCategory = function(id, categoryData) {
+        return request('PATCH', '/categories/' + id, { category: categoryData });
+      };
+      
+      // DELETE /api/v1/categories/:id - Delete category
       service.deleteCategory = function(id) {
-        var index = mockCategories.findIndex(function(c) { return c.id === parseInt(id); });
-        if (index !== -1) {
-          mockCategories.splice(index, 1);
-          return $q.resolve({ success: true });
-        }
-        return $q.reject({ error: 'Category not found' });
+        return request('DELETE', '/categories/' + id);
       };
       
       // ============ DASHBOARD/STATS API ============
-      // TODO: Replace with real API call - GET /api/stats
+      // Note: Stats are calculated from transactions on the client side
+      // since the backend doesn't have a dedicated stats endpoint
+      
       service.getStats = function() {
-        return $q.resolve({ data: mockStats });
+        // Get all transactions and accounts to calculate stats
+        var statsPromise = $q.all([
+          service.getTransactions(),
+          service.getAccounts()
+        ]).then(function(results) {
+          var transactions = results[0].data || [];
+          var accounts = results[1].data || [];
+          
+          // Calculate total balance from all accounts
+          var totalBalance = accounts.reduce(function(sum, account) {
+            return sum + parseFloat(account.balance || 0);
+          }, 0);
+          
+          // Get current month's transactions
+          var now = new Date();
+          var firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+          var monthlyTransactions = transactions.filter(function(t) {
+            var transactionDate = new Date(t.date);
+            return transactionDate >= firstDayOfMonth;
+          });
+          
+          // Calculate monthly income and expenses
+          var monthlyIncome = monthlyTransactions
+            .filter(function(t) { return t.transaction_type === 'income'; })
+            .reduce(function(sum, t) { return sum + parseFloat(t.amount || 0); }, 0);
+          
+          var monthlyExpenses = monthlyTransactions
+            .filter(function(t) { return t.transaction_type === 'expense'; })
+            .reduce(function(sum, t) { return sum + parseFloat(t.amount || 0); }, 0);
+          
+          return {
+            data: {
+              totalBalance: totalBalance,
+              balanceChange: 0, // Would need historical data to calculate
+              monthlyIncome: monthlyIncome,
+              incomeChange: 0, // Would need previous month data to calculate
+              monthlyExpenses: monthlyExpenses,
+              expenseChange: 0 // Would need previous month data to calculate
+            }
+          };
+        });
+        
+        return statsPromise;
       };
       
-      // TODO: Replace with real API call - GET /api/transactions/recent
       service.getRecentTransactions = function(limit) {
         var count = limit || 5;
-        return $q.resolve({ 
-          data: mockTransactions.slice(0, count) 
+        return service.getTransactions().then(function(response) {
+          var transactions = response.data || [];
+          return {
+            data: transactions.slice(0, count)
+          };
         });
+      };
+      
+      // ============ HEALTH CHECK API ============
+      
+      // GET /up - Check API health
+      service.checkHealth = function() {
+        return $http.get('/up');
       };
     }]);
 })();

@@ -1,32 +1,21 @@
 // Personal Finance Management - Authentication Service
-// NOTE: This is UI-level authentication for testing routes only
-// TODO: Integrate with real backend authentication when API is ready
+// Integrated with backend API authentication
 (function(){
   'use strict';
   
   angular.module('pfmApp')
-    .service('AuthService', ['$q', function($q) {
+    .service('AuthService', ['$q', '$http', function($q, $http) {
       var service = this;
       var currentUser = null;
       var isLoggedIn = false;
       
-      // Mock user data for testing
-      var mockUsers = [
-        {
-          id: 1,
-          email: 'demo@example.com',
-          password: 'demo123', // NOTE: In production, never store passwords like this!
-          name: 'Alex Johnson',
-          avatar: 'https://i.pravatar.cc/150?img=1'
-        }
-      ];
-      
-      // Check if user is authenticated
+      // Check if user is authenticated (has API key)
       service.isAuthenticated = function() {
-        // Check localStorage for persisted session
+        // Check localStorage for persisted API key
         if (!isLoggedIn) {
+          var apiKey = localStorage.getItem('pfm_api_key');
           var stored = localStorage.getItem('pfm_user');
-          if (stored) {
+          if (apiKey && stored) {
             currentUser = JSON.parse(stored);
             isLoggedIn = true;
           }
@@ -39,74 +28,75 @@
         return currentUser;
       };
       
-      // Login (mocked)
-      // TODO: Replace with real API call - POST /api/auth/login
+      // Set API key and user session
+      service.setSession = function(apiKey, user) {
+        localStorage.setItem('pfm_api_key', apiKey);
+        localStorage.setItem('pfm_user', JSON.stringify(user));
+        currentUser = user;
+        isLoggedIn = true;
+      };
+      
+      // Get stored API key
+      service.getApiKey = function() {
+        return localStorage.getItem('pfm_api_key');
+      };
+      
+      // Login with API key
+      // Note: The backend API documentation doesn't specify a login endpoint
+      // This assumes the user has an API key already generated via Rails console
+      // In production, you would typically have a /auth/login endpoint
+      service.loginWithApiKey = function(apiKey, userData) {
+        // Store the API key and user data
+        service.setSession(apiKey, userData);
+        return $q.resolve({ success: true, user: userData });
+      };
+      
+      // Mock login for demo purposes
+      // TODO: Replace with actual authentication endpoint when available
       service.login = function(email, password) {
-        // Simulate API delay
+        // For now, this is a mock implementation
+        // In production, this would call POST /api/auth/login
         return $q(function(resolve, reject) {
           setTimeout(function() {
-            var user = mockUsers.find(function(u) {
-              return u.email === email && u.password === password;
-            });
-            
-            if (user) {
-              // Remove password from user object
-              currentUser = {
-                id: user.id,
-                email: user.email,
-                name: user.name,
-                avatar: user.avatar
+            // Demo credentials check
+            if (email === 'demo@example.com' && password === 'demo123') {
+              var user = {
+                id: 1,
+                email: email,
+                name: 'Demo User',
+                avatar: 'https://i.pravatar.cc/150?img=1'
               };
-              isLoggedIn = true;
               
-              // Persist to localStorage
-              localStorage.setItem('pfm_user', JSON.stringify(currentUser));
+              // Use a demo API key (in production, this would come from the server)
+              var demoApiKey = 'demo_api_key_' + Date.now();
+              service.setSession(demoApiKey, user);
               
-              resolve({ success: true, user: currentUser });
+              resolve({ success: true, user: user });
             } else {
               reject({ error: 'Invalid email or password' });
             }
-          }, 500); // Simulate network delay
+          }, 500);
         });
       };
       
-      // Signup (mocked)
-      // TODO: Replace with real API call - POST /api/auth/signup
+      // Signup
+      // TODO: Replace with actual signup endpoint when available
       service.signup = function(userData) {
+        // For now, this is a mock implementation
         return $q(function(resolve, reject) {
           setTimeout(function() {
-            // Check if user already exists
-            var exists = mockUsers.find(function(u) {
-              return u.email === userData.email;
-            });
+            var user = {
+              id: Date.now(),
+              email: userData.email,
+              name: userData.name || 'User',
+              avatar: 'https://i.pravatar.cc/150?img=' + (Math.floor(Math.random() * 70) + 1)
+            };
             
-            if (exists) {
-              reject({ error: 'Email already registered' });
-            } else {
-              // Create new user
-              var newUser = {
-                id: mockUsers.length + 1,
-                email: userData.email,
-                password: userData.password,
-                name: userData.name || 'User',
-                avatar: 'https://i.pravatar.cc/150?img=' + (mockUsers.length + 1)
-              };
-              
-              mockUsers.push(newUser);
-              
-              // Auto-login after signup
-              currentUser = {
-                id: newUser.id,
-                email: newUser.email,
-                name: newUser.name,
-                avatar: newUser.avatar
-              };
-              isLoggedIn = true;
-              
-              localStorage.setItem('pfm_user', JSON.stringify(currentUser));
-              
-              resolve({ success: true, user: currentUser });
-            }
+            // Generate a demo API key
+            var apiKey = 'api_key_' + Date.now();
+            service.setSession(apiKey, user);
+            
+            resolve({ success: true, user: user });
           }, 500);
         });
       };
@@ -115,21 +105,22 @@
       service.logout = function() {
         currentUser = null;
         isLoggedIn = false;
+        localStorage.removeItem('pfm_api_key');
         localStorage.removeItem('pfm_user');
         return $q.resolve({ success: true });
       };
       
-      // Helper to accept any login for demo purposes
+      // Helper to quickly set up a demo session
       service.quickLogin = function() {
-        currentUser = {
+        var user = {
           id: 1,
           email: 'demo@example.com',
           name: 'Demo User',
           avatar: 'https://i.pravatar.cc/150?img=1'
         };
-        isLoggedIn = true;
-        localStorage.setItem('pfm_user', JSON.stringify(currentUser));
-        return $q.resolve({ success: true, user: currentUser });
+        var apiKey = 'demo_api_key_' + Date.now();
+        service.setSession(apiKey, user);
+        return $q.resolve({ success: true, user: user });
       };
     }]);
 })();
