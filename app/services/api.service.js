@@ -4,9 +4,9 @@
   'use strict';
   
   angular.module('pfmApp')
-    .service('ApiService', ['$http', '$q', function($http, $q) {
+    .service('ApiService', ['$http', '$q', 'API_CONFIG', function($http, $q, API_CONFIG) {
       var service = this;
-      var BASE_URL = '/api/v1'; // Backend API base URL
+      var BASE_URL = API_CONFIG.BASE_URL; // Backend API base URL from config
       
       // Get API key from localStorage
       function getApiKey() {
