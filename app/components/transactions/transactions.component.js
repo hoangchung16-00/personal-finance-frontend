@@ -16,7 +16,9 @@
           'Shopping': '🛍️',
           'Electronics': '💻',
           'Housing': '🏠',
-          'Healthcare': '🏥'
+          'Healthcare': '🏥',
+          'Groceries': '🛒',
+          'Utilities': '💡'
         };
         
         ctrl.$onInit = function() {
@@ -34,11 +36,26 @@
           // Load all transactions
           ApiService.getTransactions()
             .then(function(response) {
-              ctrl.transactions = response.data;
+              // Transform transactions to match UI expectations
+              ctrl.transactions = (response.data || []).map(function(t) {
+                return {
+                  id: t.id,
+                  date: t.date,
+                  category: t.category ? t.category.name : 'Uncategorized',
+                  categoryId: t.category_id,
+                  description: t.description,
+                  amount: parseFloat(t.amount),
+                  type: t.transaction_type, // Map transaction_type to type
+                  account: t.account,
+                  notes: t.notes,
+                  tags: t.tags
+                };
+              });
               ctrl.filteredTransactions = ctrl.transactions;
               ctrl.loading = false;
             })
             .catch(function(error) {
+              console.error('Failed to load transactions:', error);
               UiService.error('Failed to load transactions');
               ctrl.loading = false;
             });
@@ -46,7 +63,10 @@
           // Load categories for filter
           ApiService.getCategories()
             .then(function(response) {
-              ctrl.categories = response.data;
+              ctrl.categories = response.data || [];
+            })
+            .catch(function(error) {
+              console.error('Failed to load categories:', error);
             });
         }
         
@@ -69,13 +89,14 @@
         };
         
         ctrl.deleteTransaction = function(transaction) {
-          if (UiService.confirm('Are you sure you want to delete this transaction?')) {
+          if (confirm('Are you sure you want to delete this transaction?')) {
             ApiService.deleteTransaction(transaction.id)
               .then(function() {
                 UiService.success('Transaction deleted successfully');
                 loadData();
               })
               .catch(function(error) {
+                console.error('Failed to delete transaction:', error);
                 UiService.error('Failed to delete transaction');
               });
           }
